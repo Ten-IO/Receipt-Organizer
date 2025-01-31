@@ -5,7 +5,7 @@ This project aim to provide an easier management system for food suggestion and 
 
 ## Table of Contents
 Project functionality :
-1- Create receipt
+1- Create receipt\n
 2- Categorize receipt
 3- Search for receipt
 4- Meal planning features
