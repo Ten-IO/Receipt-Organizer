@@ -27,10 +27,10 @@ Project including :
 <ul> + Interface  
  <li>User experience and usable interface (1.5 weeks)</li>  
 </ul>
-<ul> + Core function
- <li>Implement food recognition, categorization, and search feature (1 week)</li>
+<ul> + Core function (1 week)
+ <li>Implement food recognition, categorization, and search feature</li>
 </ul>
 <ul> + Database (0.5 weeks)
  <li>local storing</li>
 </ul>
-<ol> + Testing & Optimize</ol> (0.5 weeks)
+<ol> + Testing & Optimize (0.5 weeks)</ol> 
