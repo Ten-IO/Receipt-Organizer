@@ -1,10 +1,10 @@
-# Title : Receipt
+# Title : FoodIO
 
 ## Description 
 This project aim to provide an easier management system for food suggestion and collection. The project will be build on java based and focus on food handling, reverse search, and recognition based.
 
 ## Table of Contents
-Project functionality
+Project functionality :
 1- Create receipt
 2- Categorize receipt
 3- Search for receipt
