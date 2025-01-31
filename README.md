@@ -24,11 +24,13 @@ Fellow developer, Skynoxk :busts_in_silhouette:.
 
 ## Plan :dart:
 Project including :  
-<ul> Interface  
-<li>User experience and usable interface (2 weeks)</li>  
- Core function
+<ul> + Interface  
+ <li>User experience and usable interface (1.5 weeks)</li>  
+</ul>
+<ul> + Core function
  <li>Implement food recognition, categorization, and search feature (1 week)</li>
- Database
+</ul>
+<ul> + Database (0.5 weeks)
  <li>local storing</li>
 </ul>
-<ol>Testing & Optimize</ol>
+<ol> + Testing & Optimize</ol> (0.5 weeks)
