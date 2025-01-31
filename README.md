@@ -11,18 +11,24 @@ Project functionality :
 - 📅 Meal planning features  
 
 ## How to use
-1- Clone this repository - `git clone <repo-link>` 
+1- Clone this repository - `git clone <repo-link>`  
 2- Make sure your compiler is active  
 3- Run `app.java`
 
 ## What to know :stew:
-\u2192 To create your food, input the food name, categorize to your  liking, and view our suggestions.
+To create your food, input the food name, categorize to your  liking.  
+Search via ingredients to view our suggestion
 
 ## Credit
 Fellow developer, Skynoxk :busts_in_silhouette:.
 
 ## Plan :dart:
 Project including :  
- + Interface  
-- User experience and usable interface (2 weeks)  
- + User  
+<ul> Interface  
+<li>User experience and usable interface (2 weeks)</li>  
+ Core function
+ <li>Implement food recognition, categorization, and search feature (1 week)</li>
+ Database
+ <li>local storing</li>
+</ul>
+<ol>Testing & Optimize</ol>
