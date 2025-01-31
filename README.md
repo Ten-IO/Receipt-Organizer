@@ -24,5 +24,5 @@ Fellow developer, Nox
 ## Plan
 Project including :
  + Interface
-- attractive and usable interface (2 weeks)
+- User experience and usable interface (2 weeks)
  + User 
