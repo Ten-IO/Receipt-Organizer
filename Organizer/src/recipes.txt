@@ -1,0 +1,4 @@
+Toyor|images/toyur.jpg|Chicken, Spices, Oil\
+Rice Cake|images/rice_cake.jpg|Rice, Seaweed, Salt\
+Sushi|images/sushi.jpg|Rice, Salmon, Vinegar\
+Wok Noodle|images/wok_noodle.jpg|Noodles, Vegetables, Soy Sauce\

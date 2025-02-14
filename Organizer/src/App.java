@@ -1,9 +1,10 @@
-import javax.swing.*;
-import java.awt.*;
+package Food;
 
 public class App {
     public static void main(String[] args) {
-        FrameFeature myFrame = new FrameFeature();
-        myFrame.setVisible(true); // Make the JFrame visible
+        FrameFeature frame = new FrameFeature(); // Main window
+        new ListFood(frame); 
+        new AboutUs(frame);
+        new testing(frame);
     }
 }
