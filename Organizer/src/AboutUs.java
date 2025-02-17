@@ -25,10 +25,6 @@ public class AboutUs {
         aboutText.setText("Welcome to FoodiO!\n\nWe are dedicated to sharing the best recipes with you. \n"
                 + "Explore our collection and enjoy cooking!");
         aboutText.setFont(new Font("Arial", Font.PLAIN, 16));
-//        aboutText.setWrapStyleWord(true);
-//        aboutText.setLineWrap(true);
-//        aboutText.setEditable(false);
-//        aboutText.setOpaque(false);
 
         JButton backButton = new JButton("Back");
         backButton.addActionListener(e -> cardLayout.show(mainPanel, "List")); // Go back to recipe list

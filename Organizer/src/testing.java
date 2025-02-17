@@ -1,44 +1,31 @@
 package Food;
 
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.awt.Font;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.SwingConstants;
+import javax.swing.*;
+import java.awt.*;
 
 public class testing {
-	private JPanel mainPanel;
+    private JPanel aboutTesting;
     private CardLayout cardLayout;
-    private JPanel detailMainJPanel;
+    private JPanel mainPanel;
 
     public testing(FrameFeature frame) {
-        this.cardLayout = frame.getCardLayout(); 
-        this.mainPanel = frame.getMainPanel(); 
-        
-        createMain();
-        mainPanel.add(detailMainJPanel, "testing"); 
+        this.cardLayout = frame.getCardLayout(); // Get CardLayout from main frame
+        this.mainPanel = frame.getMainPanel(); // Get main panel
+
+        createaboutTesting();
+        mainPanel.add(aboutTesting, "testing"); // Add the About Us panel to CardLayout
     }
-    private void createMain() {
-    	mainPanel = new JPanel(new BorderLayout());
-    	JLabel titleLabel = new JLabel("Testing ", SwingConstants.CENTER);
-    	JTextArea aboutText = new JTextArea();
-        aboutText.setText("Welcome to FoodiO!\n\nWe are dedicated to sharing the best recipes with you. \n"
-                + "Explore our collection and enjoy cooking!");
-        aboutText.setFont(new Font("Arial", Font.PLAIN, 16));
-        JButton backButton = new JButton("Back");
-        backButton.addActionListener(e -> cardLayout.show(mainPanel, "List"));
+
+    private void createaboutTesting() {
+        aboutTesting = new JPanel(new BorderLayout());
+        JLabel titleLabel = new JLabel("Editing food", SwingConstants.CENTER);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
         JPanel textPanel = new JPanel();
         textPanel.setLayout(new BorderLayout());
         textPanel.add(titleLabel, BorderLayout.NORTH);
-        textPanel.add(aboutText, BorderLayout.CENTER);
-        
-        detailMainJPanel.add(textPanel, BorderLayout.CENTER);
-    	detailMainJPanel.add(titleLabel,BorderLayout.NORTH);
-    	
+ 
+
+        aboutTesting.add(textPanel, BorderLayout.CENTER);
     }
-	
 }

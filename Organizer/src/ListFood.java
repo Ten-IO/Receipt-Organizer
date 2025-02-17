@@ -1,10 +1,12 @@
 package Food;
 
 import javax.swing.*;
+import java.sql.Connection;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.*;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +16,7 @@ public class ListFood {
     private CardLayout cardLayout;
     private JPanel mainPanel;
 
-    public ListFood(FrameFeature frame) {
+    public ListFood(FrameFeature frame) throws SQLException {
         this.cardLayout = frame.getCardLayout();
         this.mainPanel = frame.getMainPanel();
 
@@ -25,18 +27,35 @@ public class ListFood {
         mainPanel.add(recipeDetailPanel, "Details");
     }
 
-    private void createRecipeListPanel() {
+    private void createRecipeListPanel() throws SQLException {
         recipeListPanel = new JPanel(new GridLayout(0, 4, 10, 10)); 
         recipeListPanel.setBackground(Color.WHITE);
         recipeListPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         // Load recipes from file
-        List<String[]> recipes = loadRecipesFromFile("recieps.txt");
+        List<String[]> recipes = new ArrayList<>();
+        List<String> picture = RecipeDB.getPic();
+    	List<String> names = RecipeDB.getName();
+    	List<String> ingredients = RecipeDB.getIngredient();
+    	List<Integer> idIntegers = RecipeDB.getID();
+    	
+
+    	// Ensure all lists have the same size
+    	for (int i = 0; i < idIntegers.size(); i++) {
+    	    String[] recipe = new String[3]; 
+    	    recipe[0] = names.get(i); // Name
+    	    recipe[1] = picture.get(i); //get pic
+    	    recipe[2] = ingredients.get(i); // Ingredients
+    	    recipes.add(recipe);
+    	}
 
         for (String[] recipe : recipes) {
             recipeListPanel.add(createRecipePanel(recipe[0], recipe[1], recipe[2]));
+            System.out.println("Name: " + recipe[0]);
+    	    System.out.println("Picture: " + recipe[1]);
+    	    System.out.println("Ingredients: " + recipe[2]);
         }
-
+        
         // Wrap in JScrollPane
         JScrollPane scrollPane = new JScrollPane(recipeListPanel);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -80,7 +99,7 @@ public class ListFood {
         recipeDetailPanel.add(detailLabel, BorderLayout.CENTER);
 
         JButton backButton = new JButton("Back");
-        backButton.addActionListener(e -> cardLayout.show(mainPanel, "List"));
+        backButton.addActionListener(e ->  cardLayout.show(mainPanel, "List"));
         recipeDetailPanel.add(backButton, BorderLayout.SOUTH);
     }
 
@@ -88,21 +107,6 @@ public class ListFood {
         detailLabel.setText("<html><h2>" + title + "</h2><br><b>Ingredients:</b><br>" + ingredients.replace(",", "<br>") + "</html>");
     }
 
-    private List<String[]> loadRecipesFromFile(String filename) {
-        List<String[]> recipes = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] parts = line.split("\\|");
-                if (parts.length == 3) {
-                    recipes.add(parts);
-                }
-            }
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Error loading recipes from file: " + e.getMessage());
-        }
-        return recipes;
-    }
 
     public ImageIcon getScaledImage(String imagePath, int width, int height) {
         ImageIcon icon = new ImageIcon(imagePath);

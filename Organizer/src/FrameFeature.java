@@ -9,11 +9,10 @@ import java.awt.event.ActionListener;
 
 public class FrameFeature extends JFrame implements ActionListener {
     private JButton menuButton1 = new JButton("Main");
-    private JButton menuButton2 = new JButton("List");
-    private JButton menuButton3 = new JButton("New Recipe");
-    private JButton menuButton4 = new JButton("Update Recipe");
-    private JButton menuButton5 = new JButton("about us");
-    private JButton menuButton6 = new JButton("testing");
+    private JButton menuButton2 = new JButton("Food");
+    private JButton menuButton3 = new JButton("Edit recipe");
+    private JButton menuButton4 = new JButton("about us");
+    private JButton menuButton5 = new JButton("testing");
     
     private CardLayout cardLayout;
     private JPanel mainPanel;
@@ -35,14 +34,13 @@ public class FrameFeature extends JFrame implements ActionListener {
         TopHomeLine.add(menuButton3);
         TopHomeLine.add(menuButton4);
         TopHomeLine.add(menuButton5);
-        TopHomeLine.add(menuButton6);
 
         menuButton1.addActionListener(this);
         menuButton2.addActionListener(this);
         menuButton3.addActionListener(this);
         menuButton4.addActionListener(this);
         menuButton5.addActionListener(this);
-        menuButton6.addActionListener(this);
+
 
         this.setLayout(new BorderLayout());
         this.add(TopHomeLine, BorderLayout.NORTH);
@@ -52,10 +50,6 @@ public class FrameFeature extends JFrame implements ActionListener {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
         this.setResizable(false);
-       
-
-
-        
         
     }
 
@@ -74,14 +68,11 @@ public class FrameFeature extends JFrame implements ActionListener {
         } else if (e.getSource() == menuButton2) {
             cardLayout.show(mainPanel, "List");
         } else if (e.getSource() == menuButton3) {
-            cardLayout.show(mainPanel, "New Recipe");
+            cardLayout.show(mainPanel, "Edit");
         } else if (e.getSource() == menuButton4) {
-            cardLayout.show(mainPanel, "Update Recipe");
-        } else if (e.getSource() == menuButton5) {
             cardLayout.show(mainPanel, "AboutUs");
-        } else if (e.getSource() == menuButton6) {
+        } else if (e.getSource() == menuButton5) {
             cardLayout.show(mainPanel, "testing");
-            
         } 
         
     }
