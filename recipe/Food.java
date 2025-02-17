@@ -1,29 +1,27 @@
 package recipe;
 
+import java.util.List;
+
 public class Food {
     private String name;
-    private String ingredient;
+    private List<String> ingredient;
     private String category;
-    private String instruction;
+    private List<String> instruction;
 
     // Constructor
-    public Food(String name, String ingredient, String category, String instruction) {
+    public Food(String name, List<String> ingredient, String category, List<String> instruction) {
         this.name = name;
         this.ingredient = ingredient;
         this.category = category;
         this.instruction = instruction;
     }
 
-    Food(String name, String ingredient, String category) {
-        this(name, ingredient, category, "none");
-    }
-
     // Setter
-    void setName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    void setIngredient(String ingredient) {
+    void setIngredient(List<String> ingredient) {
         this.ingredient = ingredient;
     }
 
@@ -31,24 +29,52 @@ public class Food {
         this.category = category;
     }
 
-    void setInstruction(String instruction) {
+    void setInstruction(List<String> instruction) {
         this.instruction = instruction;
     }
 
     // Getter
-    String getName() {
+    public String getName() {
         return name;
     }
 
-    String getIngredient() {
+    public List<String> getIngredient() {
         return ingredient;
     }
 
-    String getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    String getInstruction() {
+    public List<String> getInstruction() {
+        return instruction;
+    }
+
+    public List<String> splitIngredient(String ingredientString) {
+        if (!ingredientString.contains(",") && !ingredientString.contains(" ")) {
+            ingredient.add(ingredientString.trim());
+        } else {
+            String[] ingredientArray = ingredientString.split("[, ]");
+            for (String i : ingredientArray) {
+                if (!i.trim().isEmpty()) {
+                    ingredient.add(i.trim());
+                }
+            }
+        }
+        return ingredient;
+    }
+
+    public List<String> splitInstruction(String instructiontString) {
+        if (!instructiontString.contains(",") && !instructiontString.contains(" ")) {
+            ingredient.add(instructiontString.trim());
+        } else {
+            String[] instructionArray = instructiontString.split("[, ]");
+            for (String i : instructionArray) {
+                if (!i.trim().isEmpty()) {
+                    instruction.add(i.trim());
+                }
+            }
+        }
         return instruction;
     }
 

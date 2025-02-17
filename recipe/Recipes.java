@@ -1,18 +1,22 @@
 package recipe;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Random;
 
-public class Recipes extends Food {
-    ArrayList<Food> recipe = new ArrayList<Food>();
-    int count = 0;
+public class Recipes extends Splitter {
+    List<Food> recipeList;
+    int count;
 
-    public Recipes(String name, String ingredient, String category, String instruction) {
-        super(name, ingredient, category, instruction);
+    public Recipes() {
+        this.recipeList = new ArrayList<Food>();
+        this.count = 0;
+
     }
 
     public void makeReceipt(String name, String ingredient, String category, String instruction) {
@@ -20,62 +24,66 @@ public class Recipes extends Food {
             System.out.println("Recipe already exists");
             return;
         }
-        recipe.add(new Food(name, ingredient, category, instruction));
-        count ++;
+        Food newRecipe = new Food(name, splitInput(ingredient), category, splitInput(instruction));
+        recipeList.add(newRecipe);
+        count++;
     }
-    public void makeReceipt() {
-        if (findByName(this.getName()) >= 0) {
+
+    public void makeReceipt(Food recipe) {
+        if (findByName(recipe.getName()) >= 0) {
             System.out.println("Recipe already exists");
             return;
         }
-        recipe.add(new Food(this.getName(), this.getIngredient(), this.getCategory(), this.getInstruction()));
-        count ++;
+        recipeList.add(recipe);
+        count++;
     }
 
     void updateReceipt(String name, String ingredient, String category, String instruction) {
         int index = findByName(name);
         if (index >= 0) {
-            recipe.set(index, new Food(name, ingredient, category, instruction));
+            Food newRecipe = new Food(name, splitInput(ingredient), category, splitInput(instruction));
+            recipeList.set(index, newRecipe);
         } else {
-            System.out.println("Recipe was not yet created");
+            System.out.println("RecipeList was not yet created");
         }
     }
 
-    void recipeInfo(int index) {
-        Food food = recipe.get(index);
+    public void recipeInfo(int index) {
+        Food food = recipeList.get(index);
         System.out.println("Category: " + food.getCategory());
         System.out.println("Food: " + food.getName());
         System.out.println("Ingredient: " + food.getIngredient());
         System.out.println("Instruction: " + food.getInstruction());
-        
+
     }
 
     int findByName(String name) {
-        for (Food food : recipe) {
+        for (Food food : recipeList) {
             if (food.getName().equalsIgnoreCase(name)) {
-                return recipe.indexOf(food);
+                return recipeList.indexOf(food);
             }
         }
         return -1;
     }
 
     int findByIngredient(String ingredient) {
-        for (Food food : recipe) {
-            if (food.getIngredient().equalsIgnoreCase(ingredient)) {
-                return recipe.indexOf(food);
-            }
+        for (Food food : recipeList) {
+            for (String element : food.getIngredient())
+                if (element.equalsIgnoreCase(ingredient)) {
+                    return recipeList.indexOf(food);
+                }
         }
         return -1;
     }
 
     void sortRecipe() {
-        int n = recipe.size();
+        int n = recipeList.size();
         for (int i = 0; i < n - 1; i++) {
             for (int j = 0; j < n - i - 1; j++) {
-                if (recipe.get(j).getName().compareToIgnoreCase(recipe.get(j).getName()) > 0) {
-                    Food temp = recipe.get(j);
-                    recipe.set(i, recipe.get(i + 1));
-                    recipe.set(i + 1, temp);
+                if (recipeList.get(j).getName().compareToIgnoreCase(recipeList.get(j+1).getName()) > 0) {
+                    Food temp = recipeList.get(j);
+                    recipeList.set(j, recipeList.get(j + 1));
+                    recipeList.set(j + 1, temp);
                 }
             }
         }
@@ -83,7 +91,7 @@ public class Recipes extends Food {
 
     void writeToTxt() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("localFood.txt", true))) {
-            for (Food food : recipe) {
+            for (Food food : recipeList) {
                 writer.write(food.getName() + "|" + food.getIngredient() + "|" + food.getCategory() + "|"
                         + String.join(",", food.getInstruction()));
                 writer.newLine();
@@ -103,15 +111,23 @@ public class Recipes extends Food {
                 String ingredient = part[1];
                 String category = part[2];
                 String instruction = part[3];
-                recipe.add(new Food(name, ingredient, category, instruction));
+                Food newRecipe = new Food(name, splitInput(ingredient), category, splitInput(instruction));
+
+                recipeList.add(newRecipe);
             }
         } catch (IOException e) {
             System.out.println("Java cannot read files");
             e.printStackTrace();
         }
     }
-    
+
     public int getCount() {
         return count;
+    }
+
+    public int suggestRecipe() {
+        Random random = new Random();
+        int rand_food = random.nextInt(count);
+        return rand_food;
     }
 }
