@@ -1,6 +1,7 @@
 package recipe;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -75,12 +76,36 @@ public class Recipes extends Splitter {
         }
         return -1;
     }
+    
+    void findByIngredient(List<String> ingredients) {
+        List<Food> foundRecipes = new ArrayList<>();
+        for (Food food : recipeList) {
+            int matchCount = 0;
+            for (String ingredient:ingredients) {
+            if (food.getIngredient().contains(ingredient)) {
+                matchCount++;
+            }
+        }
+        if (matchCount>0) {
+            foundRecipes.add(food);
+        }
+        }
+        foundRecipes.sort(new Comparator<Food>() {
+            @Override
+            public int compare(Food food1, Food food2) {
+                int food1MatchCount = (int) food1.getIngredient().stream().filter(ingredients::contains).count();
+                int food2MatchCount = (int) food2.getIngredient().stream().filter(ingredients::contains).count();
+                return Integer.compare(food2MatchCount, food1MatchCount); // Sort by match count in descending order
+            }
+        });
+        
+    }
 
-    void sortRecipe() {
+    public void sortRecipe() {
         int n = recipeList.size();
         for (int i = 0; i < n - 1; i++) {
             for (int j = 0; j < n - i - 1; j++) {
-                if (recipeList.get(j).getName().compareToIgnoreCase(recipeList.get(j+1).getName()) > 0) {
+                if (recipeList.get(j).getName().compareToIgnoreCase(recipeList.get(j + 1).getName()) > 0) {
                     Food temp = recipeList.get(j);
                     recipeList.set(j, recipeList.get(j + 1));
                     recipeList.set(j + 1, temp);
@@ -89,8 +114,8 @@ public class Recipes extends Splitter {
         }
     }
 
-    void writeToTxt() {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("localFood.txt", true))) {
+    public void writeToTxt() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("localFood.txt"))) {
             for (Food food : recipeList) {
                 writer.write(food.getName() + "|" + food.getIngredient() + "|" + food.getCategory() + "|"
                         + String.join(",", food.getInstruction()));
@@ -102,7 +127,7 @@ public class Recipes extends Splitter {
         }
     }
 
-    void readFromTxt() {
+    public void readFromTxt() {
         try (BufferedReader reader = new BufferedReader(new FileReader("localFood.txt"))) {
             String line;
             while ((line = reader.readLine()) != null) {
@@ -114,6 +139,7 @@ public class Recipes extends Splitter {
                 Food newRecipe = new Food(name, splitInput(ingredient), category, splitInput(instruction));
 
                 recipeList.add(newRecipe);
+                count++;
             }
         } catch (IOException e) {
             System.out.println("Java cannot read files");
@@ -129,5 +155,19 @@ public class Recipes extends Splitter {
         Random random = new Random();
         int rand_food = random.nextInt(count);
         return rand_food;
+    }
+
+    protected void showAllRecipe() {
+        recipeList.sort(Comparator.comparing(Food::getCategory).thenComparing((Food::getName)));
+
+        String currentCategory = "";
+        int i = 0;
+        for (Food food : recipeList) {
+            if (!food.getCategory().equals(currentCategory)) {
+                currentCategory = food.getCategory();
+                System.out.println("++ Category: " + currentCategory);
+            }
+            System.out.println((++i) + " " + food.getName());
+        }
     }
 }
