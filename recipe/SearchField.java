@@ -15,9 +15,9 @@ public class SearchField extends JTextField {
     private String labelText = "Search ...";
     private Color lineColor = new Color(33, 155, 216);
     private boolean mouseOver = false;
-   
-    public SearchField(int top, int bottom, int left,int right) {
-        setBorder(new EmptyBorder(top,left,bottom, right));
+
+    public SearchField(int top, int bottom, int left, int right) {
+        setBorder(new EmptyBorder(top, left, bottom, right));
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent me) {
@@ -45,8 +45,9 @@ public class SearchField extends JTextField {
             }
         });
     }
+
     public SearchField() {
-        this(10,10,3,5);
+        this(10, 10, 3, 5);
     }
 
     @Override
@@ -58,15 +59,16 @@ public class SearchField extends JTextField {
         int width = getWidth();
         int height = getHeight();
         if (mouseOver) {
-            g2.setColor(Color.yellow);
+            g2.setColor(Color.black);
         } else {
             g2.setColor(new Color(76, 204, 255));
         }
-        g2.fillRect(2, height - 2, width - 4, 1);
-        if(getText().isEmpty()){
-        createHintText(g2);
+        // small rectangle focus control
+        g2.fillRect(2, ((height / 2) + 8), (width * 3 / 4), 1);
+        if (getText().isEmpty()) {
+            createHintText(g2);
         }
-        
+
         createLineStyle(g2);
         g2.dispose();
     }
@@ -76,8 +78,8 @@ public class SearchField extends JTextField {
         g2.setColor(new Color(150, 150, 150));
         FontMetrics fnt = g2.getFontMetrics();
         Rectangle2D r2 = fnt.getStringBounds(labelText, g2);
-        double height = getHeight() - in.top - in.bottom;
-        double textY = (height - r2.getHeight() / 2);
+        double height = getHeight() - in.top - in.bottom + 5; // init pos
+        double textY = (height - r2.getHeight() / 3); // late pos
         g2.drawString(labelText, in.right, (int) (in.top + textY + fnt.getAscent() * (1 - location)));
     }
 
@@ -95,8 +97,9 @@ public class SearchField extends JTextField {
         Timer timer = new Timer(10, e -> {
             if (show) {
                 location += 0.05f;
-                if (location > 1) {
-                    location = 1;
+                // late pos
+                if (location > 1.3f) {
+                    location = 1.3f;
                     ((Timer) e.getSource()).stop();
                 }
             } else {
