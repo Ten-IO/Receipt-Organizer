@@ -9,5 +9,7 @@ public class App {
         new AboutUs(frame);
         new testing(frame);
         new editRecipes(frame);
+        new RemovingRecipes(frame);
+        new UpdateRecipes(frame);
     }
 }

@@ -21,7 +21,7 @@ public class AboutUs {
         aboutPanel = new JPanel(new BorderLayout());
         JLabel titleLabel = new JLabel("About Us", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        JTextArea aboutText = new JTextArea();
+        JLabel aboutText = new JLabel();
         aboutText.setText("Welcome to FoodiO!\n\nWe are dedicated to sharing the best recipes with you. \n"
                 + "Explore our collection and enjoy cooking!");
         aboutText.setFont(new Font("Arial", Font.PLAIN, 16));

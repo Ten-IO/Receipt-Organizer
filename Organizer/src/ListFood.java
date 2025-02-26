@@ -37,11 +37,11 @@ public class ListFood {
         List<String> picture = RecipeDB.getPic();
     	List<String> names = RecipeDB.getName();
     	List<String> ingredients = RecipeDB.getIngredient();
-    	List<Integer> idIntegers = RecipeDB.getID();
+  
     	
 
     	// Ensure all lists have the same size
-    	for (int i = 0; i < idIntegers.size(); i++) {
+    	for (int i = 0; i < names.size(); i++) {
     	    String[] recipe = new String[3]; 
     	    recipe[0] = names.get(i); // Name
     	    recipe[1] = picture.get(i); //get pic
@@ -51,9 +51,7 @@ public class ListFood {
 
         for (String[] recipe : recipes) {
             recipeListPanel.add(createRecipePanel(recipe[0], recipe[1], recipe[2]));
-            System.out.println("Name: " + recipe[0]);
-    	    System.out.println("Picture: " + recipe[1]);
-    	    System.out.println("Ingredients: " + recipe[2]);
+            
         }
         
         // Wrap in JScrollPane
@@ -62,7 +60,7 @@ public class ListFood {
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.getVerticalScrollBar().setUnitIncrement(100);  
 
-        mainPanel.add(scrollPane, "List");
+        mainPanel.add(scrollPane,  "List");
     }
 
     private JPanel createRecipePanel(String title, String imagePath, String ingredients) {
