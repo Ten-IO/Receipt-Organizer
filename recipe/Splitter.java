@@ -4,15 +4,16 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class Splitter {
-    public static List<String> splitInput(String input) {
+    public static List<String> chopInput(String input) {
         List<String> result = new ArrayList<>();
-        // if empty array put in "none"
+        if (input == null || input.trim().isEmpty()) {
+            return result;
+        }
         if (!input.contains(",") && !input.contains(" ")) {
-            result.add("none");
+            result.add(input.trim());
         } else {
-            // input turn to array with "," as a delimiter
-            String[] inputArray = input.split("[,]");
-            // loop that array divide by delimiter and fill
+            // array created using "," as a delimiter
+            String[] inputArray = input.split(",");
             for (String i : inputArray) {
                 if (!i.trim().isEmpty()) {
                     result.add(i.trim());
@@ -20,5 +21,16 @@ public class Splitter {
             }
         }
         return result;
+    }
+
+    public static String listToString(List<String> list) {
+        if (list == null || list.isEmpty()) {
+            return "empty";
+        }
+        StringBuilder sb = new StringBuilder();
+        for (String item : list) {
+            sb.append("- ").append(item).append("\n");
+        }
+        return sb.toString();
     }
 }

@@ -54,7 +54,7 @@ public class Food {
         if (!ingredientString.contains(",") && !ingredientString.contains(" ")) {
             ingredient.add(ingredientString.trim());
         } else {
-            String[] ingredientArray = ingredientString.split("[, ]");
+            String[] ingredientArray = ingredientString.split(", ");
             for (String i : ingredientArray) {
                 if (!i.trim().isEmpty()) {
                     ingredient.add(i.trim());
@@ -68,7 +68,7 @@ public class Food {
         if (!instructiontString.contains(",") && !instructiontString.contains(" ")) {
             ingredient.add(instructiontString.trim());
         } else {
-            String[] instructionArray = instructiontString.split("[, ]");
+            String[] instructionArray = instructiontString.split(", ");
             for (String i : instructionArray) {
                 if (!i.trim().isEmpty()) {
                     instruction.add(i.trim());

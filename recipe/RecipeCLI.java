@@ -1,14 +1,22 @@
 package recipe;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class RecipeCLI {
 
-    private static Recipes recipes = new Recipes();
     private static Scanner scanner = new Scanner(System.in);
-
+    private static Recipes recipes = new Recipes();
     public static void main(String[] args) {
-        recipes.readFromTxt(); // Load recipes from file on startup
+
+        CsvHandler csvHandler = new CsvHandler(recipes);
+        csvHandler.readFromCsv("localfood.csv");
+
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            csvHandler.writeToCsv("localfood.csv");
+            System.out.println("Auto-saving to localfood.csv...");
+        }));
 
         while (true) {
             System.out.println("\n=== Recipe Management CLI ===");
@@ -24,7 +32,7 @@ public class RecipeCLI {
             System.out.print("\n=> Type your choice: ");
 
             int choice = scanner.nextInt();
-            scanner.nextLine(); 
+            scanner.nextLine();
 
             switch (choice) {
                 case 1:
@@ -34,15 +42,15 @@ public class RecipeCLI {
                     updateRecipe();
                     break;
                 case 3:
-                clearScreen();
+                    clearScreen();
                     viewRecipeInfo();
                     break;
                 case 4:
-                clearScreen();
+                    clearScreen();
                     findRecipeByName();
                     break;
                 case 5:
-                clearScreen();
+                    clearScreen();
                     findRecipeByIngredient();
                     break;
                 case 6:
@@ -50,11 +58,11 @@ public class RecipeCLI {
                     clearScreen();
                     break;
                 case 7:
-                clearScreen();
+                    clearScreen();
                     suggestRecipe();
                     break;
                 case 8:
-                clearScreen();
+                    clearScreen();
                     showAllRecipe();
                     break;
                 case 9:
@@ -82,9 +90,9 @@ public class RecipeCLI {
         String instructions = scanner.nextLine();
         System.out.print("Confirm ? y (accept): ");
         String confirm = scanner.nextLine();
-        if(confirm.equalsIgnoreCase("y")) {
-        recipes.makeReceipt(name, ingredients, category, instructions);
-        System.out.println("Recipe added successfully.");
+        if (confirm.equalsIgnoreCase("y")) {
+            recipes.makeRecipe(name, ingredients, category, instructions);
+            System.out.println("Recipe added successfully.");
         } else {
             System.out.print("Cancelled ...");
             clearScreen();
@@ -106,16 +114,16 @@ public class RecipeCLI {
             System.out.print("New instructions (comma-separated): ");
             String instructions = scanner.nextLine();
             System.out.print("Confirm ? y (accept): ");
-        String confirm = scanner.nextLine();
-        if(confirm.equalsIgnoreCase("y")) {
-        recipes.updateReceipt(name, ingredients, category, instructions);
-        System.out.println("Recipe updated successfully.");
-        } else {
-            System.out.print("Cancelled ...");
-            clearScreen();
-            return;
-        }
-        
+            String confirm = scanner.nextLine();
+            if (confirm.equalsIgnoreCase("y")) {
+                recipes.updateRecipe(name, ingredients, category, instructions);
+                System.out.println("Recipe updated successfully.");
+            } else {
+                System.out.print("Cancelled ...");
+                clearScreen();
+                return;
+            }
+
         } else {
             System.out.println("Recipe not found.");
         }
@@ -125,9 +133,9 @@ public class RecipeCLI {
         System.out.println("== Checking recipe ==");
         System.out.print("Enter the index of the recipe to view: ");
         int index = scanner.nextInt();
-        scanner.nextLine(); 
+        scanner.nextLine();
         if (index >= 0 && index < recipes.getCount()) {
-            recipes.recipeInfo(index);
+            recipes.recipeInfoIndex(index);
         } else {
             System.out.println("Invalid recipe index.");
         }
@@ -143,7 +151,7 @@ public class RecipeCLI {
         String name = scanner.nextLine();
         int index = recipes.findByName(name);
         if (index >= 0) {
-            recipes.recipeInfo(index);
+            recipes.recipeInfoIndex(index);
         } else {
             System.out.println("Recipe not found.");
         }
@@ -151,14 +159,18 @@ public class RecipeCLI {
 
     private static void findRecipeByIngredient() {
         System.out.println("== Ingredient searcher ==");
-        System.out.print("Enter the ingredient to search for: ");
+        System.out.print("Enter the ingredient to search for (comma separated): ");
         String ingredient = scanner.nextLine();
-        int index = recipes.findByIngredient(ingredient);
-        if (index >= 0) {
-            recipes.recipeInfo(index);
+        List<String> ingredientsList = Arrays.asList(ingredient.split(","));
+        List<Food> foundRecipes = recipes.findByIngredient(ingredientsList);
+        if(!foundRecipes.isEmpty()){
+            for(Food food : foundRecipes){
+                showFood(food);
+            }
         } else {
             System.out.println("Recipe with that ingredient not found.");
         }
+
     }
 
     private static void sortRecipes() {
@@ -171,16 +183,18 @@ public class RecipeCLI {
         if (recipes.getCount() > 0) {
             int suggestionIndex = recipes.suggestRecipe();
             System.out.println("Suggested Recipe:");
-            recipes.recipeInfo(suggestionIndex);
+            Food food = recipes.recipeInfoIndex(suggestionIndex);
+            showFood(food);
         } else {
             System.out.println("No recipes available to suggest.");
         }
     }
 
     private static void saveRecipes() {
-        recipes.writeToTxt();
+        CsvHandler csvHandler = new CsvHandler(recipes);
+        csvHandler.writeToCsv("localfood.csv");
         System.out.println("Recipes saved to file.");
-        
+
     }
 
     public static void clearScreen() {
@@ -193,7 +207,7 @@ public class RecipeCLI {
         System.out.flush();
         try {
             final String os = System.getProperty("os.name");
-            
+
             if (os.contains("Windows")) {
                 Runtime.getRuntime().exec("cls");
             } else {
@@ -202,5 +216,11 @@ public class RecipeCLI {
         } catch (Exception e) {
             System.out.println();
         }
+    }
+    private static void showFood(Food food) {
+        System.out.println("Food: " + food.getName());
+        System.out.println("Category: " + food.getCategory());
+        System.out.println("Ingredients: " + food.getIngredient());
+        System.out.println("Instructions: " + food.getInstruction());
     }
 }
