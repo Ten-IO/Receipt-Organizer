@@ -57,7 +57,7 @@ public class Recipes {
         return recipeList.get(index);
     }
 
-    int findByName(String name) {
+    public int findByName(String name) {
         for (Food food : recipeList) {
             if (food.getName().equalsIgnoreCase(name)) {
                 return recipeList.indexOf(food);
@@ -76,7 +76,7 @@ public class Recipes {
         return -1;
     }
     
-    List<Food> findByIngredient(List<String> ingredients) {
+    public List<Food> findByIngredient(List<String> ingredients) {
         List<Food> foundRecipes = new ArrayList<>();
         for (Food food : recipeList) {
             int matchCount = 0;
@@ -113,7 +113,7 @@ public class Recipes {
         }
     }
 
-    protected void showAllRecipe() {
+    public void showAllRecipe() {
         recipeList.sort(Comparator.comparing(Food::getCategory).thenComparing((Food::getName)));
 
         String currentCategory = "";
