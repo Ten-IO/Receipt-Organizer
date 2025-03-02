@@ -1,0 +1,22 @@
+Khmer Chicken Curry|Maryland|Khmer|Heat pot,add oil,add paste,add village,stir 1 min on medium temperature,add chicken,add potatoes,add beans,add onion,add water and remaining coconut,add season with fish sauce,stir and let it simmer
+Banana Bread|flour,sugar,ripe bananas,eggs,butter,baking soda,salt,vanilla extract|Western|Mash bananas,mix with melted butter and sugar,add eggs and dry ingredients,pour into loaf pan,bake at 350°F for 60 minutes.
+Blueberry Muffins|flour,sugar,fresh blueberries,eggs,milk,butter,baking powder,salt|Western|Mix dry ingredients,stir in milk and eggs,fold in blueberries gently,spoon into muffin tins,bake at 375°F for 20 minutes.
+Brownies|dark chocolate,butter,sugar,eggs,flour,cocoa powder,salt|Western|Melt butter and chocolate together,mix in sugar and eggs,fold in dry ingredients,pour into a pan,bake at 350°F for 25 minutes.
+Carrot Cake|flour,sugar,grated carrots,eggs,vegetable oil,baking soda,cinnamon,walnuts,salt|Western|Mix dry ingredients,add eggs and oil,stir in carrots and walnuts,bake at 350°F for 40 minutes.
+Cheese Danish|flour,butter,cream cheese,sugar,egg,vanilla extract|Western|Prepare a simple pastry dough,fill with sweetened cream cheese mixture,shape into Danish pastries,bake at 375°F for 20 minutes.
+Cheesecake|graham crackers,cream cheese,sugar,eggs,butter,lemon juice|Western|Crush crackers and mix with melted butter for the crust,blend cream cheese with sugar and eggs,pour over crust,bake at 325°F for 45 minutes.
+Chocolate Cake|flour,sugar,cocoa powder,butter,eggs,baking soda,milk,salt|Western|Preheat oven to 350°F,whisk dry ingredients,add wet ingredients,mix well,bake for 35 minutes.
+Chocolate Milkshake|chocolate ice cream,milk,chocolate syrup,whipped cream|Western|Blend chocolate ice cream with milk and syrup until smooth,pour into a glass,top with whipped cream.
+Coffee Cake|flour,sugar,butter,eggs,cinnamon,baking powder,milk,brown sugar|Western|Mix dry ingredients,blend with wet ingredients,add a cinnamon-brown sugar swirl,bake at 350°F for 35 minutes.
+Fruit Salad|strawberries,blueberries,kiwi,apple,orange,honey,lemon juice|Western|Chop all fruits,combine in a bowl,drizzle with honey and lemon juice,toss gently.
+Lemon Drizzle Cake|flour,sugar,butter,eggs,lemon zest,lemon juice,baking powder,salt|Western|Cream butter and sugar,add eggs and lemon zest,fold in dry ingredients,bake at 350°F for 30 minutes,drizzle with lemon juice mixed with extra sugar.
+Oatmeal Cookies|rolled oats,flour,brown sugar,butter,eggs,baking soda,raisins|Western|Mix dry ingredients,add butter and eggs,fold in raisins and oats,drop spoonfuls onto a baking sheet,bake at 350°F for 12 minutes.
+Pancakes|flour,milk,eggs,sugar,baking powder,salt,butter|Western|Mix dry ingredients,whisk in milk and eggs,pour batter onto a hot griddle,cook until bubbles form,flip and cook until golden.
+Red Velvet Cake|flour,sugar,cocoa powder,buttermilk,eggs,butter,red food coloring,vinegar,baking soda,salt|Western|Combine dry ingredients,whisk together wet ingredients,mix until smooth,bake at 350°F for 30 minutes,then frost as desired.
+Rice Pudding|rice,milk,sugar,cinnamon,raisins,vanilla extract|Western|Simmer rice in milk with sugar and cinnamon,stir in raisins and vanilla,cook until creamy,serve warm or chilled.
+Sponge Cake|eggs,sugar,flour,baking powder,salt|Western|Beat eggs and sugar until light and fluffy,carefully fold in sifted flour and baking powder,bake at 350°F for 25 minutes.
+Strawberry Smoothie|strawberries,banana,yogurt,milk,honey|Western|Blend strawberries,banana,yogurt,milk,and a drizzle of honey until smooth,serve chilled.
+Vanilla Cake|flour,sugar,butter,eggs,vanilla extract,baking powder,milk,salt|Western|Preheat oven to 350°F,mix dry ingredients,add wet ingredients,stir until smooth,bake for 30 minutes.
+Vanilla Cupcakes|flour,sugar,butter,eggs,vanilla extract,baking powder,milk,salt|Western|Cream butter with sugar,add eggs and vanilla,gently fold in flour with baking powder and milk,bake in cupcake tins at 350°F for 20 minutes.
+Waffles|flour,milk,eggs,sugar,baking powder,salt,melted butter|Western|Combine dry and wet ingredients to form a smooth batter,pour into a preheated waffle iron,cook until crisp and golden.
+
