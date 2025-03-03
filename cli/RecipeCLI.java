@@ -7,6 +7,8 @@ import java.util.Scanner;
 import recipe.CsvHandler;
 import recipe.Food;
 import recipe.Recipes;
+import recipe.Splitter;
+import recipe.TxtHandler;
 
 public class RecipeCLI {
 
@@ -16,6 +18,8 @@ public class RecipeCLI {
 
         CsvHandler csvHandler = new CsvHandler(recipes);
         csvHandler.readFromCsv("localfood.csv");
+        TxtHandler txtHandler = new TxtHandler(recipes);
+        txtHandler.readFromTxt("src/files/localFood.txt");
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             csvHandler.writeToCsv("localfood.csv");
@@ -26,13 +30,14 @@ public class RecipeCLI {
             System.out.println("\n=== Recipe Management CLI ===");
             System.out.println("1. Add Recipe");
             System.out.println("2. Update Recipe");
-            System.out.println("3. View Recipe Info");
-            System.out.println("4. Find Recipe by Name");
-            System.out.println("5. Find Recipe by Ingredient");
-            System.out.println("6. Sort Recipes by Name");
-            System.out.println("7. Suggest a Recipe");
-            System.out.println("8. Show current recipes");
-            System.out.println("9. Exit");
+            System.out.println("3. Delete Recipe");
+            System.out.println("4. View Recipe Info");
+            System.out.println("5. Find Recipe by Name");
+            System.out.println("6. Find Recipe by Ingredient");
+            System.out.println("7. Sort Recipes by Name");
+            System.out.println("8. Suggest a Recipe");
+            System.out.println("9. Show current recipes");
+            System.out.println("10. Exit");
             System.out.print("\n=> Type your choice: ");
 
             int choice = scanner.nextInt();
@@ -45,31 +50,34 @@ public class RecipeCLI {
                 case 2:
                     updateRecipe();
                     break;
-                case 3:
-                    clearScreen();
-                    viewRecipeInfo();
+                    case 3:
+                    deleteRecipe();
                     break;
                 case 4:
                     clearScreen();
-                    findRecipeByName();
+                    viewRecipeInfo();
                     break;
                 case 5:
                     clearScreen();
-                    findRecipeByIngredient();
+                    findRecipeByName();
                     break;
                 case 6:
+                    clearScreen();
+                    findRecipeByIngredient();
+                    break;
+                case 7:
                     sortRecipes();
                     clearScreen();
                     break;
-                case 7:
+                case 8:
                     clearScreen();
                     suggestRecipe();
                     break;
-                case 8:
+                case 9:
                     clearScreen();
                     showAllRecipe();
                     break;
-                case 9:
+                case 10:
                     saveRecipes();
                     clearScreen();
                     System.out.println("Exiting...");
@@ -133,6 +141,14 @@ public class RecipeCLI {
         }
     }
 
+    private static void deleteRecipe() {
+       
+            System.out.println("== Delete Food ==");
+            System.out.print("Enter the name of the recipe to delete: ");
+            String name = scanner.nextLine();
+            recipes.deleteRecipe(name);
+            System.out.println("deletion executed...");
+    }
     private static void viewRecipeInfo() {
         System.out.println("== Checking recipe ==");
         System.out.print("Enter the index of the recipe to view: ");
@@ -155,7 +171,11 @@ public class RecipeCLI {
         String name = scanner.nextLine();
         int index = recipes.findByName(name);
         if (index >= 0) {
-            recipes.recipeInfoIndex(index);
+            Food food = recipes.recipeInfoIndex(index);
+            System.out.println("Food: " + food.getName());
+            System.out.println("Category: " + food.getCategory());
+            System.out.println("Ingredients: " + Splitter.listToString(food.getIngredient()));
+            System.out.println("Instructions: " + Splitter.listToString(food.getInstruction()));
         } else {
             System.out.println("Recipe not found.");
         }
@@ -224,7 +244,7 @@ public class RecipeCLI {
     private static void showFood(Food food) {
         System.out.println("Food: " + food.getName());
         System.out.println("Category: " + food.getCategory());
-        System.out.println("Ingredients: " + food.getIngredient());
-        System.out.println("Instructions: " + food.getInstruction());
+        System.out.println("Ingredients: " + Splitter.listToString(food.getIngredient()));
+        System.out.println("Instructions: " + Splitter.listToString(food.getInstruction()));
     }
 }
