@@ -44,7 +44,8 @@ public class Recipes {
     }
 
     public void deleteRecipe(String name) {
-        int index = findByIngredient(name);
+        int index = findByName(name);
+        System.out.println(index);
         if(index >=0) {
             recipeList.remove(index);
             count --;

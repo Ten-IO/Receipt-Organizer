@@ -41,9 +41,6 @@ public class TxtHandler {
                             Splitter.chopInput(instruction));
 
                     recipes.makeRecipe(newRecipe);
-                } else {
-                    System.out.println(reader.readLine() + " is malformed error");
-
                 }
             }
 
