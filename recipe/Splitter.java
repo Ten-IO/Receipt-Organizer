@@ -33,5 +33,29 @@ public class Splitter {
         }
         return sb.toString();
     }
+
+    public static String stringToCommaString(String input) {
+        if (input == null || input.trim().isEmpty() || input.equals("empty")) {
+            return "";
+        }
+
+        String[] lines = input.split("\n");
+        StringBuilder result = new StringBuilder();
+        boolean firstItem = true;
+
+        for (String line : lines) {
+            if (line.startsWith("- ")) {
+                String item = line.substring(2).trim();
+                if (!item.isEmpty()) {
+                    if (!firstItem) {
+                        result.append(",");
+                    }
+                    result.append(item);
+                    firstItem = false;
+                }
+            }
+        }
+        return result.toString();
+    }
     
 }

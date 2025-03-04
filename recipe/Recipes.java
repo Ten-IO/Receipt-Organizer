@@ -43,6 +43,15 @@ public class Recipes {
         }
     }
 
+    public void updateRecipe(int index, String name, String category, String ingredient, String instruction) {
+        if (index >= 0 && index < recipeList.size()) {
+            Food newRecipe = new Food(name, Splitter.chopInput(ingredient), category, Splitter.chopInput(instruction));
+            recipeList.set(index, newRecipe);
+        } else {
+            System.out.println("Invalid recipe index");
+        }
+    }
+
     public void deleteRecipe(String name) {
         int index = findByName(name);
         System.out.println(index);
