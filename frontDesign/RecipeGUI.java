@@ -27,6 +27,7 @@ public class RecipeGUI {
     private TxtHandler txtHandler;
     private JPanel contentPanel;
     private JFrame frame;
+    private AddRecipe addRecipePanel;
     String imgSrc = "src/images/";
 
     public static void main(String[] args) {
@@ -67,8 +68,6 @@ public class RecipeGUI {
 
         // get logo
         ImageIcon imageIcon = new ImageIcon(imgSrc + "Food4.png");
-        // Image image = imageIcon.getImage().getScaledInstance(100,
-        // 75,Image.SCALE_AREA_AVERAGING);
         Image image = imageIcon.getImage();
         JLabel logoLabel = new JLabel(new ImageIcon(image));
 
@@ -83,9 +82,8 @@ public class RecipeGUI {
         for (String item : navItems) {
             JButton button = new JButton(item);
             // default select on main
-            button.setBackground(item.equals("Main") ? new Color(193, 75, 89) : new Color(208, 74, 101)); // rgb(231,
-                                                                                                          // 162, 176)
-                                                                                                          // #D04A65
+            button.setBackground(item.equals("Main") ? new Color(193, 75, 89) : new Color(208, 74, 101)); 
+            // rgb(231, 162, 176)  #D04A65
             button.setForeground(Color.WHITE);
             button.setBorderPainted(false);
             button.setFont(new Font("Roboto", Font.PLAIN, 18));
@@ -94,7 +92,6 @@ public class RecipeGUI {
             button.addActionListener(new NavButtonListener(item));
             navPanel.add(button, BorderLayout.CENTER);
         }
-
         return navPanel;
     }
 
@@ -463,11 +460,13 @@ public class RecipeGUI {
         panel.add(titleLabel);
         panel.add(Box.createRigidArea(new Dimension(0, 10))); // Space after title
 
-        JPanel recipeGrid = new JPanel(new GridLayout(1, 4, 15, 15)); // Increased spacing
+        JPanel recipeGrid = new JPanel(new GridLayout(1, 4, 15, 15)); 
         recipeGrid.setAlignmentX(Component.LEFT_ALIGNMENT); // Align grid to the left
 
         int count = 0;
-        for (Food recipe : recipes.recipeList) {
+        while (count < 5) {
+            int rand = recipes.suggestRecipe();
+            Food recipe = recipes.recipeInfoIndex(rand);
             if (count >= 5)
                 break; // Display only 4 recipes
             JPanel itemPanel = new JPanel(new BorderLayout());
@@ -518,7 +517,7 @@ public class RecipeGUI {
             } else if (itemName.equals("List")) {
                 showRecipeList();
             } else if (itemName.equals("New Recipe")) {
-                showNewRecipePanel();
+                addRecipePanel = new AddRecipe(contentPanel, recipes);
             } else if (itemName.equals("Tutorial")) {
                 showTutorialPanel();
             } else if (itemName.equals("About Us")) {
