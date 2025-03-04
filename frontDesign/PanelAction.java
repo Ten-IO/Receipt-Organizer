@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 
 public class PanelAction extends javax.swing.JPanel {
     private ActionButton viewButton;
@@ -76,10 +75,4 @@ public class PanelAction extends javax.swing.JPanel {
         });
     }
 
-    private void makeTransparentButton(JButton button) {
-        button.setOpaque(false);
-        button.setContentAreaFilled(false);
-        button.setBorderPainted(false);
-        button.setBackground(null);
-    }
 }
