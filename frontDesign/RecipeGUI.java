@@ -1,46 +1,25 @@
 package frontDesign;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
-import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JViewport;
-import javax.swing.RowFilter;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
-import javax.swing.border.EmptyBorder;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableRowSorter;
-
 
 import recipe.CsvHandler;
 import recipe.Food;
 import recipe.Recipes;
 import recipe.TxtHandler;
 import recipe.Splitter;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
 
 public class RecipeGUI {
     private Recipes recipes;
@@ -70,7 +49,7 @@ public class RecipeGUI {
         recipes = new Recipes();
         txtHandler = new TxtHandler(recipes);
         txtHandler.readFromTxt("src/files/localFood.txt");
-
+        // csvHandler.readFromCsv("src/files/localFood.csv");
         // Navigation Panel
         JPanel navPanel = createNavPanel();
         frame.add(navPanel, BorderLayout.NORTH);
@@ -164,8 +143,10 @@ public class RecipeGUI {
         }
         // search
         AutoSuggestSearchField field = new AutoSuggestSearchField(recipeNames);
+        JPanel Panel1 = new JPanel(new BorderLayout());
         JPanel searchPanel = new JPanel(new BorderLayout());
-        
+        searchPanel.setSize(new Dimension(Panel1.getWidth(), 100));
+        JPanel underSearchPanel = new JPanel(new BorderLayout());
 
         // Create foodTableModel
         FoodTableModel foodTable = new FoodTableModel(recipes.recipeList);
@@ -200,12 +181,10 @@ public class RecipeGUI {
                     objNew.setRowFilter(null);
                 } else {
                     // check sensitivity match (?i)
-                    objNew.setRowFilter(RowFilter.regexFilter("(?i)" + text)); 
+                    objNew.setRowFilter(RowFilter.regexFilter("(?i)" + text));
                 }
             }
         });
-
-        
 
         TableColumn actionColumn = table.getColumnModel().getColumn(2);
         JScrollPane scrollTable = new JScrollPane(table);
@@ -215,63 +194,203 @@ public class RecipeGUI {
         TableActionEvent event = new TableActionEvent() {
             @Override
             public void onEdit(int row) {
-                searchPanel.removeAll();
-                JPanel editPanel = new JPanel(new GridLayout(5, 1, 5, 20));
-                searchPanel.add(editPanel);
+                underSearchPanel.removeAll();
+                JPanel editPanel = new JPanel(new GridBagLayout());
+                GridBagConstraints gbc = new GridBagConstraints();
+                gbc.gridx = 0;
+                gbc.gridy = 0;
+                gbc.fill = GridBagConstraints.HORIZONTAL;
+                gbc.insets = new Insets(5, 5, 5, 5); // Add some padding
 
                 JLabel foodLabel = new JLabel("Food");
-                CustomField foodField = new CustomField(5, 5, 10, 10);
-                foodLabel.setBorder(new EmptyBorder(10,10,10,10));
-                foodLabel.add(foodField);
-                foodField.setBorder(new EmptyBorder(20, 20, 20, 20));
-                CustomField categoryField = new CustomField(5, 5, 10, 10);
-                CustomField ingredientField = new CustomField(5, 5, 10, 10);
-                CustomField instructionField = new CustomField(5, 5, 10, 10, "write instruction...");
+                JTextArea foodField = new JTextArea(recipes.recipeList.get(row).getName());
+                JScrollPane foodScrollPane = new JScrollPane(foodField);
+                foodField.setLineWrap(true);
+                foodField.setWrapStyleWord(true);
+                foodField.setPreferredSize(new Dimension(400, 50));
+                editPanel.add(foodLabel, gbc);
 
-                editPanel.add(foodLabel);
-                editPanel.add(categoryField);
-                editPanel.add(ingredientField);
-                editPanel.add(instructionField);
+                gbc.gridy++;
+                gbc.fill = GridBagConstraints.BOTH; // Allow vertical fill
+                gbc.weighty = 0.1; // Give it some vertical weight
+                editPanel.add(foodScrollPane, gbc);
 
-                JButton save = new JButton();
-                save.setText("save");
+                gbc.gridy++;
+                gbc.fill = GridBagConstraints.HORIZONTAL;
+                gbc.weighty = 0; // Reset vertical weight
+                JLabel categoryLabel = new JLabel("Category");
+                JTextArea categoryField = new JTextArea(recipes.recipeList.get(row).getCategory());
+                JScrollPane categoryScrollPane = new JScrollPane(categoryField);
+                categoryField.setLineWrap(true);
+                categoryField.setWrapStyleWord(true);
+                categoryField.setPreferredSize(new Dimension(400, 50));
+                editPanel.add(categoryLabel, gbc);
+
+                gbc.gridy++;
+                gbc.fill = GridBagConstraints.BOTH;
+                gbc.weighty = 0.1;
+                editPanel.add(categoryScrollPane, gbc);
+
+                gbc.gridy++;
+                gbc.fill = GridBagConstraints.HORIZONTAL;
+                gbc.weighty = 0;
+                JLabel ingredientLabel = new JLabel("Ingredients");
+                JTextArea ingredientField = new JTextArea(
+                        Splitter.listToString(recipes.recipeList.get(row).getIngredient()));
+                JScrollPane ingredientScrollPane = new JScrollPane(ingredientField);
+                ingredientField.setLineWrap(true);
+                ingredientField.setWrapStyleWord(true);
+                ingredientField.setPreferredSize(new Dimension(400, 100));
+                editPanel.add(ingredientLabel, gbc);
+
+                gbc.gridy++;
+                gbc.fill = GridBagConstraints.BOTH;
+                gbc.weighty = 0.2;
+                editPanel.add(ingredientScrollPane, gbc);
+
+                gbc.gridy++;
+                gbc.fill = GridBagConstraints.HORIZONTAL;
+                gbc.weighty = 0;
+                JLabel instructionLabel = new JLabel("Instructions");
+                JTextArea instructionField = new JTextArea(
+                        Splitter.listToString(recipes.recipeList.get(row).getInstruction()));
+                JScrollPane instructionScrollPane = new JScrollPane(instructionField);
+                instructionField.setLineWrap(true);
+                instructionField.setWrapStyleWord(true);
+                instructionField.setPreferredSize(new Dimension(400, 150));
+                editPanel.add(instructionLabel, gbc);
+
+                gbc.gridy++;
+                gbc.fill = GridBagConstraints.BOTH;
+                gbc.weighty = 0.3;
+                editPanel.add(instructionScrollPane, gbc);
+
+                gbc.gridy++;
+                gbc.fill = GridBagConstraints.HORIZONTAL;
+                gbc.weighty = 0;
+                JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+
+                JButton save = new JButton("Save");
                 save.setFocusable(false);
                 save.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        recipes.updateRecipe(foodField.getText(), categoryField.getText(), ingredientField.getText(),
-                                instructionField.getText());
+                        recipes.updateRecipe(row, foodField.getText(), categoryField.getText(),
+                                Splitter.stringToCommaString(ingredientField.getText()),
+                                Splitter.stringToCommaString(instructionField.getText()));
+                        showRecipeList();
                     }
-
                 });
-                editPanel.add(save);
+                buttonPanel.add(save);
 
-                searchPanel.add(editPanel);
-                searchPanel.revalidate();
-                searchPanel.repaint();
+                JButton cancel = new JButton("Cancel");
+                cancel.setFocusable(false);
+                cancel.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        showRecipeList();
+                    }
+                });
+                buttonPanel.add(cancel);
+
+                editPanel.add(buttonPanel, gbc);
+
+                underSearchPanel.add(editPanel);
+                underSearchPanel.revalidate();
+                underSearchPanel.repaint();
             }
 
             @Override
             public void onView(int row) {
-                searchPanel.removeAll();
-                JPanel viewPanel = new JPanel(new GridLayout(4, 1, 5, 20));
+                underSearchPanel.removeAll();
+                JPanel viewPanel = new JPanel(new GridBagLayout());
+                GridBagConstraints gbc = new GridBagConstraints();
+                gbc.gridx = 0;
+                gbc.gridy = 0;
+                gbc.fill = GridBagConstraints.HORIZONTAL;
+                gbc.insets = new Insets(0, 5, 10, 10);
+
                 String food = recipes.recipeList.get(row).getName();
                 String category = recipes.recipeList.get(row).getCategory();
                 List<String> ingredients = recipes.recipeList.get(row).getIngredient();
                 List<String> instructions = recipes.recipeList.get(row).getInstruction();
 
-                CustomTextArea ingredientsArea = new CustomTextArea(
-                        "Ingredient:\n" + Splitter.listToString(ingredients));
-                CustomTextArea instructionsArea = new CustomTextArea(
-                        "Instruction:\n" + Splitter.listToString(instructions));
-                viewPanel.add(new CustomTextArea("Food: " + food));
-                viewPanel.add(new CustomTextArea("Category: " + category));
+                // Food Label
+                JLabel foodLabel = new JLabel("Food");
 
-                viewPanel.add(ingredientsArea);
-                viewPanel.add(instructionsArea);
-                searchPanel.add(viewPanel);
-                searchPanel.revalidate();
-                searchPanel.repaint();
+                // Food Area
+                JTextArea foodArea = new JTextArea(food);
+                foodArea.setEditable(false);
+                viewPanel.add(foodLabel, gbc);
+                gbc.gridy++;
+                viewPanel.add(foodArea, gbc);
+                gbc.gridy++;
+
+                gbc.gridx = 0;
+                gbc.gridy = 2;
+                gbc.gridheight = 1; // Span two rows for the photo
+                gbc.fill = GridBagConstraints.BOTH; // Fill both directions
+                gbc.weightx = 0.5; // Give some horizontal weight
+                gbc.weighty = 0.5; // Give some vertical weight
+
+                ImageIcon imageIcon = new ImageIcon("src/images/" + food.replace(" ", "") + ".jpg");
+                Image image = imageIcon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH); // Adjust size
+                JLabel photoLabel = new JLabel(new ImageIcon(image));
+                viewPanel.add(photoLabel, gbc);
+                gbc.gridx++;
+
+                // Reset GridBagConstraints for other components
+                gbc.gridx = 0;
+                gbc.gridy = 2;
+                gbc.gridheight = 1;
+                gbc.fill = GridBagConstraints.HORIZONTAL;
+                gbc.weightx = 0;
+                gbc.weighty = 0;
+
+                // Category
+                JLabel categoryLabel = new JLabel("<html><div style='text-align: center;'>"
+                        + "<div style='height: 100px;'></div>"
+                        + "Category:</div></html>");
+                JTextArea categoryArea = new JTextArea(category);
+                categoryArea.setEditable(false);
+                viewPanel.add(categoryLabel, gbc);
+                gbc.gridy++;
+                viewPanel.add(categoryArea, gbc);
+
+                // Ingredients
+                gbc.gridy++;
+                JLabel ingredientsLabel = new JLabel("Ingredients:");
+                JTextArea ingredientsArea = new JTextArea(Splitter.listToString(ingredients));
+                ingredientsArea.setEditable(false);
+                ingredientsArea.setLineWrap(true);
+                ingredientsArea.setWrapStyleWord(true);
+                JScrollPane ingredientsScrollPane = new JScrollPane(ingredientsArea);
+                ingredientsScrollPane.setPreferredSize(new Dimension(400, 100));
+                viewPanel.add(ingredientsLabel, gbc);
+                gbc.gridy++;
+                gbc.fill = GridBagConstraints.BOTH;
+                gbc.weighty = 0.5;
+                viewPanel.add(ingredientsScrollPane, gbc);
+
+                // Instructions
+                gbc.gridy++;
+                gbc.fill = GridBagConstraints.HORIZONTAL;
+                gbc.weighty = 0;
+                JLabel instructionsLabel = new JLabel("Instructions:");
+                JTextArea instructionsArea = new JTextArea(Splitter.listToString(instructions));
+                instructionsArea.setEditable(false);
+                instructionsArea.setLineWrap(true);
+                JScrollPane instructionsScrollPane = new JScrollPane(instructionsArea);
+                instructionsScrollPane.setPreferredSize(new Dimension(400, 150));
+                viewPanel.add(instructionsLabel, gbc);
+                gbc.gridy++;
+                gbc.fill = GridBagConstraints.BOTH;
+                gbc.weighty = 0.5;
+                viewPanel.add(instructionsScrollPane, gbc);
+
+                underSearchPanel.add(viewPanel);
+                underSearchPanel.revalidate();
+                underSearchPanel.repaint();
             }
 
             @Override
@@ -292,9 +411,12 @@ public class RecipeGUI {
         field.setSearchFieldListener(new SearchFieldListener() {
             @Override
             public void onSuggestionSelected(String suggestion) {
-                System.out.println("onSuggestionSelected called with: " + suggestion); // Debugging
                 int recipeIndex = recipes.findByName(suggestion);
                 if (recipeIndex >= 0) {
+                    int viewIndex = table.convertRowIndexToView(recipeIndex);
+
+                    table.setRowSelectionInterval(viewIndex, viewIndex);
+
                     event.onView(recipeIndex);
                 }
             }
@@ -305,7 +427,9 @@ public class RecipeGUI {
         // list cell for food
         scrollTable.setPreferredSize(new Dimension(1100, 700));
         searchPanel.add(field, BorderLayout.NORTH);
-        contentPanel.add(searchPanel, BorderLayout.CENTER);
+        Panel1.add(searchPanel, BorderLayout.NORTH);
+        Panel1.add(underSearchPanel, BorderLayout.SOUTH);
+        contentPanel.add(Panel1, BorderLayout.WEST);
         contentPanel.add(scrollTable, BorderLayout.EAST);
         contentPanel.revalidate();
         contentPanel.repaint();
@@ -395,10 +519,6 @@ public class RecipeGUI {
                 showRecipeList();
             } else if (itemName.equals("New Recipe")) {
                 showNewRecipePanel();
-            } else if (itemName.equals("Update Recipe")) {
-                showUpdateRecipePanel();
-            } else if (itemName.equals("Delete Recipe")) {
-                showDeleteRecipePanel();
             } else if (itemName.equals("Tutorial")) {
                 showTutorialPanel();
             } else if (itemName.equals("About Us")) {
@@ -413,26 +533,6 @@ public class RecipeGUI {
         JPanel newRecipePanel = new JPanel();
         newRecipePanel.add(new JLabel("New Recipe Panel Content Here"));
         contentPanel.add(newRecipePanel, BorderLayout.CENTER);
-        contentPanel.revalidate();
-        contentPanel.repaint();
-    }
-
-    public void showUpdateRecipePanel() {
-        contentPanel.removeAll();
-        contentPanel.setLayout(new BorderLayout());
-        JPanel updateRecipePanel = new JPanel();
-        updateRecipePanel.add(new JLabel("Update Recipe Panel Content Here"));
-        contentPanel.add(updateRecipePanel, BorderLayout.CENTER);
-        contentPanel.revalidate();
-        contentPanel.repaint();
-    }
-
-    public void showDeleteRecipePanel() {
-        contentPanel.removeAll();
-        contentPanel.setLayout(new BorderLayout());
-        JPanel deleteRecipePanel = new JPanel();
-        deleteRecipePanel.add(new JLabel("Delete Recipe Panel Content Here"));
-        contentPanel.add(deleteRecipePanel, BorderLayout.CENTER);
         contentPanel.revalidate();
         contentPanel.repaint();
     }

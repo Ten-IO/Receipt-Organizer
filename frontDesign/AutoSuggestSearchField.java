@@ -22,28 +22,26 @@ public class AutoSuggestSearchField extends JTextField {
     private JList<String> suggestionList;
     private DefaultListModel<String> listModel;
 
-            private SearchFieldListener searchFieldListener;
+    private SearchFieldListener searchFieldListener;
 
-public void setSearchFieldListener(SearchFieldListener listener) {
-    this.searchFieldListener = listener;
-    suggestionList.addMouseListener(new MouseAdapter() {
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            if (e.getClickCount() == 1) { // Change to 2 for double-click
-                String selectedValue = suggestionList.getSelectedValue();
-                setText(selectedValue);
-                suggestionPopup.setVisible(false);
-    
-                // Notify the listener that a suggestion was selected
-                if (searchFieldListener != null) {
-                    searchFieldListener.onSuggestionSelected(selectedValue);
+    public void setSearchFieldListener(SearchFieldListener listener) {
+        this.searchFieldListener = listener;
+        suggestionList.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 1) { // Change to 2 for double-click
+                    String selectedValue = suggestionList.getSelectedValue();
+                    setText(selectedValue);
+                    suggestionPopup.setVisible(false);
+
+                    // Notify the listener that a suggestion was selected
+                    if (searchFieldListener != null) {
+                        searchFieldListener.onSuggestionSelected(selectedValue);
+                    }
                 }
             }
-        }
-    });
-}
-
-
+        });
+    }
 
     public AutoSuggestSearchField(List<String> suggestions, int top, int bottom, int left, int right) {
         setBorder(new EmptyBorder(top, left, bottom, right));
@@ -61,7 +59,7 @@ public void setSearchFieldListener(SearchFieldListener listener) {
         JScrollPane scrollPane = new JScrollPane(suggestionList);
         scrollPane.setBorder(BorderFactory.createEmptyBorder(3, 0, 10, 10));
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        suggestionPopup.add(scrollPane);        
+        suggestionPopup.add(scrollPane);
 
         suggestionList.addMouseListener(new MouseAdapter() {
             @Override
@@ -135,7 +133,7 @@ public void setSearchFieldListener(SearchFieldListener listener) {
     }
 
     public AutoSuggestSearchField(List<String> suggestions) {
-        this(suggestions, 10, 10, 3, 5);
+        this(suggestions, 10, 15, 3, 5);
     }
 
     public AutoSuggestSearchField(List<String> suggestions, int top, int bottom, int left, int right,
@@ -143,7 +141,6 @@ public void setSearchFieldListener(SearchFieldListener listener) {
         this(suggestions, top, bottom, left, right);
         this.labelText = labelText;
     }
-    
 
     @Override
     public void paint(Graphics grphcs) {
