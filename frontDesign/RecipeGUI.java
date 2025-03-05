@@ -104,7 +104,7 @@ public class RecipeGUI {
         JScrollPane recentScrollPane = new JScrollPane(recentPanel);
         // mini scroll
         recentScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-        recentScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        recentScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 
         // popular food
         JPanel popularPanel = createRecipePanel("Popular Recipe");
@@ -120,8 +120,8 @@ public class RecipeGUI {
 
         // Lock Horizon
         JScrollPane mainScrollPane = new JScrollPane(mainPanel);
-        mainScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        mainScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        // mainScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        // mainScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
         contentPanel.setLayout(new BorderLayout());
         contentPanel.add(mainScrollPane, BorderLayout.CENTER);

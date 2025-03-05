@@ -91,8 +91,10 @@ public class AddRecipe {
             String instruction = instructionField.getText().trim();
 
             // Validation check for empty fields
-            if (name.isEmpty() || category.isEmpty() || ingredient.isEmpty() || instruction.isEmpty() || selectedFile == null) {
-                JOptionPane.showMessageDialog(null, "All FIELDS must be filled and a PHOTO must be selected.", "Error", JOptionPane.ERROR_MESSAGE);
+            if (name.isEmpty() || category.isEmpty() || ingredient.isEmpty() || instruction.isEmpty()
+                    || selectedFile == null) {
+                JOptionPane.showMessageDialog(null, "All FIELDS must be filled and a PHOTO must be selected.", "Error",
+                        JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
@@ -109,12 +111,12 @@ public class AddRecipe {
             JOptionPane.showMessageDialog(null, "Recipe: " + name +
                     "\nCategory: " + category + "\nIngredients:\n" + ingredient + "\nInstructions:\n" + instruction);
 
-            recipes.makeRecipe(name, ingredient, category, instruction);
+            recipes.makeRecipe(name, category, ingredient, instruction);
         });
 
         contentRecipes.add(textPanel, BorderLayout.NORTH);
         contentRecipes.add(uploadInfo);
-        contentPanel.add(contentRecipes); 
+        contentPanel.add(contentRecipes);
         contentPanel.revalidate();
         contentPanel.repaint();
     }

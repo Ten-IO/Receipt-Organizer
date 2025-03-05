@@ -14,6 +14,7 @@ public class RecipeCLI {
 
     private static Scanner scanner = new Scanner(System.in);
     private static Recipes recipes = new Recipes();
+
     public static void main(String[] args) {
 
         CsvHandler csvHandler = new CsvHandler(recipes);
@@ -23,6 +24,7 @@ public class RecipeCLI {
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             csvHandler.writeToCsv("localfood.csv");
+            txtHandler.writeToTxt("localFood.txt");
             System.out.println("Auto-saving to localfood.csv...");
         }));
 
@@ -50,7 +52,7 @@ public class RecipeCLI {
                 case 2:
                     updateRecipe();
                     break;
-                    case 3:
+                case 3:
                     deleteRecipe();
                     break;
                 case 4:
@@ -103,7 +105,7 @@ public class RecipeCLI {
         System.out.print("Confirm ? y (accept): ");
         String confirm = scanner.nextLine();
         if (confirm.equalsIgnoreCase("y")) {
-            recipes.makeRecipe(name, ingredients, category, instructions);
+            recipes.makeRecipe(name, category, ingredients, instructions);
             System.out.println("Recipe added successfully.");
         } else {
             System.out.print("Cancelled ...");
@@ -128,7 +130,7 @@ public class RecipeCLI {
             System.out.print("Confirm ? y (accept): ");
             String confirm = scanner.nextLine();
             if (confirm.equalsIgnoreCase("y")) {
-                recipes.updateRecipe(name, ingredients, category, instructions);
+                recipes.updateRecipe(name, category, ingredients, instructions);
                 System.out.println("Recipe updated successfully.");
             } else {
                 System.out.print("Cancelled ...");
@@ -142,13 +144,14 @@ public class RecipeCLI {
     }
 
     private static void deleteRecipe() {
-       
-            System.out.println("== Delete Food ==");
-            System.out.print("Enter the name of the recipe to delete: ");
-            String name = scanner.nextLine();
-            recipes.deleteRecipe(name);
-            System.out.println("deletion executed...");
+
+        System.out.println("== Delete Food ==");
+        System.out.print("Enter the name of the recipe to delete: ");
+        String name = scanner.nextLine();
+        recipes.deleteRecipe(name);
+        System.out.println("deletion executed...");
     }
+
     private static void viewRecipeInfo() {
         System.out.println("== Checking recipe ==");
         System.out.print("Enter the index of the recipe to view: ");
@@ -160,6 +163,7 @@ public class RecipeCLI {
             System.out.println("Invalid recipe index.");
         }
     }
+
     private static void showAllRecipe() {
         System.out.println("== Listing current recipes ==");
         recipes.showAllRecipe();
@@ -187,8 +191,8 @@ public class RecipeCLI {
         String ingredient = scanner.nextLine();
         List<String> ingredientsList = Arrays.asList(ingredient.split(","));
         List<Food> foundRecipes = recipes.findByIngredient(ingredientsList);
-        if(!foundRecipes.isEmpty()){
-            for(Food food : foundRecipes){
+        if (!foundRecipes.isEmpty()) {
+            for (Food food : foundRecipes) {
                 showFood(food);
             }
         } else {
@@ -222,7 +226,7 @@ public class RecipeCLI {
     }
 
     public static void clearScreen() {
-        try{
+        try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
@@ -241,6 +245,7 @@ public class RecipeCLI {
             System.out.println();
         }
     }
+
     private static void showFood(Food food) {
         System.out.println("Food: " + food.getName());
         System.out.println("Category: " + food.getCategory());

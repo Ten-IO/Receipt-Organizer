@@ -8,18 +8,19 @@ import java.util.Random;
 public class Recipes {
     public List<Food> recipeList;
     int count;
+
     public Recipes() {
         this.recipeList = new ArrayList<Food>();
         this.count = 0;
 
     }
 
-    public void makeRecipe(String name, String ingredient, String category, String instruction) {
+    public void makeRecipe(String name, String category, String ingredient, String instruction) {
         if (findByName(name) >= 0) {
             System.out.println("Recipe already exists");
             return;
         }
-        Food newRecipe = new Food(name, Splitter.chopInput(ingredient), category, Splitter.chopInput(instruction));
+        Food newRecipe = new Food(name, category, Splitter.chopInput(ingredient), Splitter.chopInput(instruction));
         recipeList.add(newRecipe);
         count++;
     }
@@ -33,10 +34,10 @@ public class Recipes {
         count++;
     }
 
-    public void updateRecipe(String name, String ingredient, String category, String instruction) {
+    public void updateRecipe(String name, String category, String ingredient, String instruction) {
         int index = findByName(name);
         if (index >= 0) {
-            Food newRecipe = new Food(name, Splitter.chopInput(ingredient), category, Splitter.chopInput(instruction));
+            Food newRecipe = new Food(name, category, Splitter.chopInput(ingredient), Splitter.chopInput(instruction));
             recipeList.set(index, newRecipe);
         } else {
             System.out.println("Recipe was not yet created");
@@ -45,7 +46,7 @@ public class Recipes {
 
     public void updateRecipe(int index, String name, String category, String ingredient, String instruction) {
         if (index >= 0 && index < recipeList.size()) {
-            Food newRecipe = new Food(name, Splitter.chopInput(ingredient), category, Splitter.chopInput(instruction));
+            Food newRecipe = new Food(name, category, Splitter.chopInput(ingredient), Splitter.chopInput(instruction));
             recipeList.set(index, newRecipe);
         } else {
             System.out.println("Invalid recipe index");
@@ -55,9 +56,9 @@ public class Recipes {
     public void deleteRecipe(String name) {
         int index = findByName(name);
         System.out.println(index);
-        if(index >=0) {
+        if (index >= 0) {
             recipeList.remove(index);
-            count --;
+            count--;
         } else {
             System.out.println("recipe not found");
         }
@@ -85,19 +86,19 @@ public class Recipes {
         }
         return -1;
     }
-    
+
     public List<Food> findByIngredient(List<String> ingredients) {
         List<Food> foundRecipes = new ArrayList<>();
         for (Food food : recipeList) {
             int matchCount = 0;
-            for (String ingredient:ingredients) {
-            if (food.getIngredient().contains(ingredient)) {
-                matchCount++;
+            for (String ingredient : ingredients) {
+                if (food.getIngredient().contains(ingredient)) {
+                    matchCount++;
+                }
             }
-        }
-        if (matchCount>0) {
-            foundRecipes.add(food);
-        }
+            if (matchCount > 0) {
+                foundRecipes.add(food);
+            }
         }
         foundRecipes.sort(new Comparator<Food>() {
             @Override
@@ -136,6 +137,7 @@ public class Recipes {
             System.out.println((++i) + " " + food.getName());
         }
     }
+
     public int getCount() {
         return count;
     }

@@ -17,7 +17,7 @@ public class TxtHandler {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
             for (Food food : recipes.recipeList) {
                 writer.write(
-                        food.getName() + "|" + String.join(",", food.getIngredient()) + "|" + food.getCategory() + "|"
+                        food.getName() + "|" + food.getCategory() + "|" + String.join(",", food.getIngredient()) + "|"
                                 + String.join(",", food.getInstruction()));
                 writer.newLine();
             }
@@ -37,7 +37,7 @@ public class TxtHandler {
                     String ingredient = part[1];
                     String category = part[2];
                     String instruction = part[3];
-                    Food newRecipe = new Food(name, Splitter.chopInput(ingredient), category,
+                    Food newRecipe = new Food(name, category, Splitter.chopInput(ingredient),
                             Splitter.chopInput(instruction));
 
                     recipes.makeRecipe(newRecipe);

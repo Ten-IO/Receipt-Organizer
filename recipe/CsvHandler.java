@@ -47,7 +47,7 @@ public class CsvHandler {
                     List<String> ingredients = new ArrayList<>(Arrays.asList(ingredientsString.split(",")));
                     List<String> instructions = new ArrayList<>(Arrays.asList(instructionsString.split(",")));
 
-                    Food food = new Food(name, ingredients, category, instructions);
+                    Food food = new Food(name, category,ingredients, instructions);
                     recipes.makeRecipe(food);
 
                 }

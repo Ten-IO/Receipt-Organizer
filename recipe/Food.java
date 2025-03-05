@@ -9,7 +9,7 @@ public class Food {
     private List<String> instruction;
 
     // Constructor
-    public Food(String name, List<String> ingredient, String category, List<String> instruction) {
+    public Food(String name,  String category, List<String> ingredient, List<String> instruction) {
         this.name = name;
         this.ingredient = ingredient;
         this.category = category;
