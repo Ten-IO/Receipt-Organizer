@@ -5,6 +5,7 @@ import javax.swing.table.AbstractTableModel;
 
 import recipe.Food;
 
+    // similar to DefaultTableModel, but we can gave new type of arguments
 public class FoodTableModel extends AbstractTableModel {
     private List<Food> foodList;
     private String[] columnNames = { "Name", "Category", "Choice"};

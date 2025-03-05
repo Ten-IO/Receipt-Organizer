@@ -11,26 +11,27 @@ import java.sql.SQLException;
 public class CsvToMysql {
 
     public static void main(String[] args) {
-        String jdbcUrl = "jdbc:mysql://localhost:3306/recipe_db"; // Replace with your MySQL URL
-        String username = "root"; // Replace with your MySQL username
-        String password = "admin123"; // Replace with your MySQL password
-        String csvFilePath = "src/files/localFood.csv"; // Replace with your CSV file path
+        String jdbcUrl = "jdbc:mysql://localhost:3306/recipe_db";
+        String username = "root"; 
+        String password = "admin123"; 
+        String csvFilePath = "src/files/localFood.csv"; 
 
         try (Connection connection = DriverManager.getConnection(jdbcUrl, username, password);
              BufferedReader reader = new BufferedReader(new FileReader(csvFilePath))) {
 
             String line;
-            reader.readLine(); // Skip header line
+            // for skipping header row
+            reader.readLine(); 
 
             int o=0;
             String sql = "INSERT INTO recipes (Name, Category, Ingredients, Instructions) VALUES (?, ?, ?, ?)";
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
                 while ((line = reader.readLine()) != null) {
-                    String[] values = line.split("\",\""); //split on the correct pattern.
+                    String[] values = line.split("\",\"");
                     if (values.length == 4) {
 
-                        //remove leading and trailing quotes.
+                        // remove trailing quote from csv
                         values[0] = values[0].replace("\"", "");
                         values[3] = values[3].replace("\"", "");
 

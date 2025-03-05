@@ -31,18 +31,20 @@ public class CustomField extends JTextField {
                 repaint();
             }
         });
+
+        // fade action for focus mode
         addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
                 show = true;
-                location = 1.0f; // Make it fully visible immediately
+                location = 1.0f;
                 repaint();
             }
 
             @Override
             public void focusLost(FocusEvent e) {
                 show = false;
-                animateHint(); // Animate fade out
+                animateHint();
             }
         });
     }

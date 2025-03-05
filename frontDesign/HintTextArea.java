@@ -7,7 +7,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 public class HintTextArea extends JTextArea {
-    private String labelText = "Search ...";
+    private String labelText = "type here ...";
     private boolean mouseOver = false;
 
     public HintTextArea(int top, int bottom, int left, int right) {
@@ -73,6 +73,6 @@ public class HintTextArea extends JTextArea {
 
     @Override
     public Insets getInsets() {
-        return new Insets(5, 5, 5, 5); // Adjust insets to control padding
+        return new Insets(5, 5, 5, 5); 
     }
 }

@@ -2,6 +2,8 @@ package frontDesign;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableRowSorter;
@@ -27,7 +29,7 @@ public class RecipeGUI {
     private TxtHandler txtHandler;
     private JPanel contentPanel;
     private JFrame frame;
-    private AddRecipe addRecipePanel;
+    
     String imgSrc = "src/images/";
 
     public static void main(String[] args) {
@@ -50,7 +52,7 @@ public class RecipeGUI {
         recipes = new Recipes();
         txtHandler = new TxtHandler(recipes);
         txtHandler.readFromTxt("src/files/localFood.txt");
-        // csvHandler.readFromCsv("src/files/localFood.csv");
+
         // Navigation Panel
         JPanel navPanel = createNavPanel();
         frame.add(navPanel, BorderLayout.NORTH);
@@ -62,6 +64,11 @@ public class RecipeGUI {
 
         frame.add(contentPanel, BorderLayout.CENTER);
         frame.setVisible(true);
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                txtHandler.writeToTxt("src/files/localFood.txt");
+            }});
     }
 
     public JPanel createNavPanel() {
@@ -82,8 +89,8 @@ public class RecipeGUI {
         for (String item : navItems) {
             JButton button = new JButton(item);
             // default select on main
-            button.setBackground(item.equals("Main") ? new Color(193, 75, 89) : new Color(208, 74, 101)); 
-            // rgb(231, 162, 176)  #D04A65
+            button.setBackground(item.equals("Main") ? new Color(193, 75, 89) : new Color(208, 74, 101));
+            // rgb(231, 162, 176) #D04A65
             button.setForeground(Color.WHITE);
             button.setBorderPainted(false);
             button.setFont(new Font("Roboto", Font.PLAIN, 18));
@@ -460,7 +467,7 @@ public class RecipeGUI {
         panel.add(titleLabel);
         panel.add(Box.createRigidArea(new Dimension(0, 10))); // Space after title
 
-        JPanel recipeGrid = new JPanel(new GridLayout(1, 4, 15, 15)); 
+        JPanel recipeGrid = new JPanel(new GridLayout(1, 4, 15, 15));
         recipeGrid.setAlignmentX(Component.LEFT_ALIGNMENT); // Align grid to the left
 
         int count = 0;
@@ -471,7 +478,7 @@ public class RecipeGUI {
                 break; // Display only 4 recipes
             JPanel itemPanel = new JPanel(new BorderLayout());
             itemPanel.setBackground(Color.WHITE); // White background for recipe items
-            itemPanel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY)); // Light border
+            itemPanel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY)); 
 
             ImageIcon imageIcon = new ImageIcon(imgSrc + recipe.getName().replace(" ", "") + ".jpg");
             Image image = imageIcon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
@@ -497,13 +504,10 @@ public class RecipeGUI {
             this.itemName = itemName;
         }
 
+        // action from navigation panel to switch to each sections
         @Override
         public void actionPerformed(ActionEvent e) {
-            // Reset background color for all buttons
-            Component[] components = ((JPanel) frame.getContentPane().getComponent(0)).getComponents(); // Navigation
-                                                                                                        // panel is the
-                                                                                                        // first
-                                                                                                        // component
+            Component[] components = ((JPanel) frame.getContentPane().getComponent(0)).getComponents();
             for (Component component : components) {
                 if (component instanceof JButton) {
                     component.setBackground(new Color(208, 74, 101));
@@ -517,43 +521,86 @@ public class RecipeGUI {
             } else if (itemName.equals("List")) {
                 showRecipeList();
             } else if (itemName.equals("New Recipe")) {
-                addRecipePanel = new AddRecipe(contentPanel, recipes);
+                AddRecipe addRecipePanel = new AddRecipe(contentPanel, recipes);
             } else if (itemName.equals("Tutorial")) {
                 showTutorialPanel();
             } else if (itemName.equals("About Us")) {
-                showAboutUsPanel();
+                AboutUs infoPanel = new AboutUs(contentPanel);
             }
         }
-    }
-
-    public void showNewRecipePanel() {
-        contentPanel.removeAll();
-        contentPanel.setLayout(new BorderLayout());
-        JPanel newRecipePanel = new JPanel();
-        newRecipePanel.add(new JLabel("New Recipe Panel Content Here"));
-        contentPanel.add(newRecipePanel, BorderLayout.CENTER);
-        contentPanel.revalidate();
-        contentPanel.repaint();
     }
 
     public void showTutorialPanel() {
         contentPanel.removeAll();
         contentPanel.setLayout(new BorderLayout());
-        JPanel tutorialPanel = new JPanel();
-        tutorialPanel.add(new JLabel("Tutorial Panel Content Here"));
+        JEditorPane editorPane = new JEditorPane();
+        editorPane.setContentType("text/html");
+        String htmlContent = "<html>\n" +
+                     "<head>\n" +
+                     "<title>FoodIO Tutorial</title>\n" +
+                     "<style>\n" +
+                     "body {\n" +
+                     "    font-family: sans-serif;\n" +
+                     "    margin: 20px;\n" +
+                     "}\n" +
+                     "h1, h2 {\n" +
+                     "    color: #336699;\n" +
+                     "}\n" +
+                     "ol {\n" +
+                     "    line-height: 1.6;\n" +
+                     "}\n" +
+                     ".step {\n" +
+                     "    margin-bottom: 20px;\n" +
+                     "}\n" +
+                     ".tip {\n" +
+                     "    background-color: #f0f0f0;\n" +
+                     "    padding: 10px;\n" +
+                     "    border-radius: 5px;\n" +
+                     "    margin-top: 10px;\n" +
+                     "}\n" +
+                     "</style>\n" +
+                     "</head>\n" +
+                     "<body>\n" +
+                     "\n" +
+                     "<h1>FoodIO Tutorial</h1>\n" +
+                     "\n" +
+                     "<p>Welcome to FoodIO! This app simplifies food suggestion and management.</p>\n" +
+                     "\n" +
+                     "<div class=\"step\">\n" +
+                     "    <h2>Step 1: Create Recipes</h2>\n" +
+                     "    <ol>\n" +
+                     "        <li>Navigate to \"New Recipe\".</li>\n" +
+                     "        <li>Enter food name, category, ingredients, and instructions.</li>\n" +
+                     "        <li>Add a photo.</li>\n" +
+                     "        <li>Click \"Submit\".</li>\n" +
+                     "    </ol>\n" +
+                     "</div>\n" +
+                     "\n" +
+                     "<div class=\"step\">\n" +
+                     "    <h2>Step 2: Search Recipes</h2>\n" +
+                     "    <ol>\n" +
+                     "        <li>Use the search bar.</li>\n" +
+                     "        <li>Enter ingredients.</li>\n" +
+                     "        <li>View suggested recipes.</li>\n" +
+                     "    </ol>\n" +
+                     "</div>\n" +
+                     "\n" +
+                     "<div class=\"tip\">\n" +
+                     "    <h3>Tips:</h3>\n" +
+                     "    <ul>\n" +
+                     "        <li>Categorize recipes for easy access.</li>\n" +
+                     "        <li>Use specific ingredients for better search results.</li>\n" +
+                     "    </ul>\n" +
+                     "</div>\n" +
+                     "\n" +
+                     "</body>\n" +
+                     "</html>";
+        editorPane.setText(htmlContent);
+        editorPane.setEditable(false);
+        JScrollPane tutorialPanel = new JScrollPane(editorPane);
+        
         contentPanel.add(tutorialPanel, BorderLayout.CENTER);
         contentPanel.revalidate();
         contentPanel.repaint();
     }
-
-    public void showAboutUsPanel() {
-        contentPanel.removeAll();
-        contentPanel.setLayout(new BorderLayout());
-        JPanel aboutUsPanel = new JPanel();
-        aboutUsPanel.add(new JLabel("About Us Panel Content Here"));
-        contentPanel.add(aboutUsPanel, BorderLayout.CENTER);
-        contentPanel.revalidate();
-        contentPanel.repaint();
-    }
-
 }

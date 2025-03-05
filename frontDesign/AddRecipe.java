@@ -20,7 +20,7 @@ public class AddRecipe {
     }
 
     private void contentRecipe(JPanel contentPanel) {
-        contentPanel.removeAll(); // Clear the panel that was passed in.
+        contentPanel.removeAll(); 
         contentRecipes = new JPanel(new BorderLayout()); // Create the new panel.
         contentRecipes.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Set insets for the panel
         JLabel titleLabel = new JLabel("Add Your Recipes", SwingConstants.CENTER);

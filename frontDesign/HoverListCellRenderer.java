@@ -19,7 +19,7 @@ public class HoverListCellRenderer extends DefaultListCellRenderer {
             boolean cellHasFocus) {
         JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
         if (index == hoverIndex) {
-            label.setBackground(Color.LIGHT_GRAY); // Change the highlight color as needed
+            label.setBackground(Color.WHITE);
         } else {
             label.setBackground(isSelected ? list.getSelectionBackground() : list.getBackground());
         }
