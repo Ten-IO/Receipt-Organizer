@@ -19,13 +19,15 @@ public class RecipeCLI {
 
         CsvHandler csvHandler = new CsvHandler(recipes);
         csvHandler.readFromCsv("localfood.csv");
+        csvHandler.readFromCsv("src/files/localfood.csv");
         TxtHandler txtHandler = new TxtHandler(recipes);
         txtHandler.readFromTxt("src/files/localFood.txt");
+        txtHandler.readFromTxt("src/tempBin/localFood1.txt");
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            csvHandler.writeToCsv("localfood.csv");
-            txtHandler.writeToTxt("localFood.txt");
-            System.out.println("Auto-saving to localfood.csv...");
+            csvHandler.writeToCsv("filterlocalFood.csv");
+            txtHandler.writeToTxt("filterlocalFood.txt");
+            System.out.println("\nAuto-saving to localfood.csv...");
         }));
 
         while (true) {
@@ -41,9 +43,10 @@ public class RecipeCLI {
             System.out.println("9. Show current recipes");
             System.out.println("10. Exit");
             System.out.print("\n=> Type your choice: ");
-
-            int choice = scanner.nextInt();
-            scanner.nextLine();
+            try {
+                int choice = scanner.nextInt();
+                scanner.nextLine();
+                
 
             switch (choice) {
                 case 1:
@@ -89,7 +92,11 @@ public class RecipeCLI {
                     System.out.println("Invalid choice. Please try again.");
                     clearScreen();
             }
+        } catch (Exception e) {
+            System.out.println("Load out of scanner");
         }
+        }
+        
     }
 
     private static void addRecipe() {
