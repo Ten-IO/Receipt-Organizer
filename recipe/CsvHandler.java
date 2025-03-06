@@ -17,7 +17,7 @@ public class CsvHandler {
     }
 
     public void writeToCsv(String filename) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("localfood.csv"))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
             writer.write("\"Name\",\"Category\",\"Ingredients\",\"Instructions\"\n");
             for (Food food : recipes.recipeList) {
                 String ingredients = String.join(",", food.getIngredient());
@@ -53,7 +53,7 @@ public class CsvHandler {
                 }
             }
         } catch (IOException e) {
-            System.out.println("Error reading from CSV: " + e.getMessage());
+            System.out.println("Error reading from CSV: ");
         }
     }
 }

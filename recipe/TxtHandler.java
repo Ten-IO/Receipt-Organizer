@@ -34,8 +34,8 @@ public class TxtHandler {
                 String[] part = line.split("\\|");
                 if (part.length == 4) {
                     String name = part[0];
-                    String ingredient = part[1];
-                    String category = part[2];
+                    String category = part[1];
+                    String ingredient = part[2];
                     String instruction = part[3];
                     Food newRecipe = new Food(name, category, Splitter.chopInput(ingredient),
                             Splitter.chopInput(instruction));
@@ -46,7 +46,7 @@ public class TxtHandler {
 
         } catch (IOException e) {
             System.out.println("Java cannot read files");
-            e.printStackTrace();
+            System.out.println("Files might not exist yet");
         }
     }
 
