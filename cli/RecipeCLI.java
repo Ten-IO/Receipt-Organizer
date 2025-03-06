@@ -18,15 +18,13 @@ public class RecipeCLI {
     public static void main(String[] args) {
 
         CsvHandler csvHandler = new CsvHandler(recipes);
-        csvHandler.readFromCsv("localfood.csv");
-        csvHandler.readFromCsv("src/files/localfood.csv");
+        csvHandler.readFromCsv("src/files/localFood.csv");
         TxtHandler txtHandler = new TxtHandler(recipes);
         txtHandler.readFromTxt("src/files/localFood.txt");
-        txtHandler.readFromTxt("src/tempBin/localFood1.txt");
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            csvHandler.writeToCsv("filterlocalFood.csv");
-            txtHandler.writeToTxt("filterlocalFood.txt");
+            csvHandler.writeToCsv("src/files/localFood.csv");
+            txtHandler.writeToTxt("src/files/localFood.txt");
             System.out.println("\nAuto-saving to localfood.csv...");
         }));
 
@@ -91,6 +89,7 @@ public class RecipeCLI {
                 default:
                     System.out.println("Invalid choice. Please try again.");
                     clearScreen();
+                    break;
             }
         } catch (Exception e) {
             System.out.println("Load out of scanner");
