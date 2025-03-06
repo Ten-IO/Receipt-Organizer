@@ -9,8 +9,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import frontDesign.AboutUs;
-import frontDesign.AddRecipe;
 import recipe.Recipes;
 
 public class NavigationListener implements ActionListener {
