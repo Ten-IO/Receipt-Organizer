@@ -1,147 +1,46 @@
 package frontDesign;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableRowSorter;
-
-import recipe.CsvHandler;
-import recipe.Food;
-import recipe.Recipes;
-import recipe.TxtHandler;
-import recipe.Splitter;
-
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.JViewport;
+import javax.swing.RowFilter;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableRowSorter;
 
-public class RecipeGUI {
-    private Recipes recipes;
-    private CsvHandler csvHandler;
-    private TxtHandler txtHandler;
+import recipe.Food;
+import recipe.Recipes;
+import recipe.Splitter;
+
+public class FoodList {
     private JPanel contentPanel;
-    private JFrame frame;
+    private Recipes recipes;
 
-    String imgSrc = "src/images/";
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new RecipeGUI().showGUI());
+    FoodList(JPanel contentPanel, Recipes recipes) {
+        this.contentPanel = contentPanel;
+        this.recipes = recipes;
     }
 
-    public void showGUI() {
-
-        // app setting
-        frame = new JFrame("Food IO");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1200, 800);
-        frame.setLayout(new BorderLayout());
-        try {
-            frame.setIconImage(ImageIO.read(new File(imgSrc + "hot-pot.png")));
-        } catch (IOException e) {
-            System.out.println("Cannot load icon");
-        }
-
-        recipes = new Recipes();
-        txtHandler = new TxtHandler(recipes);
-        csvHandler = new CsvHandler(recipes);
-        txtHandler.readFromTxt("src/files/localFood.txt");
-        csvHandler.readFromCsv("src/files/localFood.csv");
-
-        // Navigation Panel
-        JPanel navPanel = createNavPanel();
-        frame.add(navPanel, BorderLayout.NORTH);
-
-        // Content Panel
-        contentPanel = new JPanel();
-        contentPanel.setLayout(new GridLayout(2, 1, 10, 20));
-        showMainContent();
-
-        frame.add(contentPanel, BorderLayout.CENTER);
-        frame.setVisible(true);
-        frame.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                txtHandler.writeToTxt("src/files/localFood.txt");
-                System.out.println("saving text");
-            }
-        });
-    }
-
-    public JPanel createNavPanel() {
-
-        // get logo
-        ImageIcon imageIcon = new ImageIcon(imgSrc + "Food4.png");
-        Image image = imageIcon.getImage();
-        JLabel logoLabel = new JLabel(new ImageIcon(image));
-
-        // navigation flow panel left-right
-        JPanel navPanel = new JPanel();
-        navPanel.setBackground(new Color(208, 74, 101));
-        navPanel.setPreferredSize(new Dimension(frame.getWidth(), 150));
-        navPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-        navPanel.add(logoLabel);
-
-        String[] navItems = { "Main", "List", "New Recipe", "Tutorial", "About Us" };
-        for (String item : navItems) {
-            JButton button = new JButton(item);
-            // default select on main
-            button.setBackground(item.equals("Main") ? new Color(193, 75, 89) : new Color(208, 74, 101));
-            // rgb(231, 162, 176) #D04A65
-            button.setForeground(Color.WHITE);
-            button.setBorderPainted(false);
-            button.setFont(new Font("Roboto", Font.PLAIN, 18));
-            button.setPreferredSize(new Dimension(150, 60));
-            button.setFocusPainted(false);
-            button.addActionListener(new NavButtonListener(item));
-            navPanel.add(button, BorderLayout.CENTER);
-        }
-        return navPanel;
-    }
-
-    public void showMainContent() {
-        contentPanel.removeAll();
-        contentPanel.setLayout(new BorderLayout());
-
-        // recent food
-        JPanel recentPanel = createRecipePanel("Recent Recipe");
-        JScrollPane recentScrollPane = new JScrollPane(recentPanel);
-        // mini scroll
-        recentScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-        recentScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-
-        // popular food
-        JPanel popularPanel = createRecipePanel("Popular Recipe");
-        // mini scroll
-        JScrollPane popularScrollPane = new JScrollPane(popularPanel);
-        popularScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-        popularScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-
-        JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-        mainPanel.add(recentScrollPane);
-        mainPanel.add(popularScrollPane);
-
-        // Lock Horizon
-        JScrollPane mainScrollPane = new JScrollPane(mainPanel);
-        // mainScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        // mainScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-
-        contentPanel.setLayout(new BorderLayout());
-        contentPanel.add(mainScrollPane, BorderLayout.CENTER);
-
-        contentPanel.revalidate();
-        contentPanel.repaint();
-    }
-
-    public void showRecipeList() {
+    public void createPanel() {
         contentPanel.removeAll();
         contentPanel.setLayout(new GridLayout(1, 2));
 
@@ -288,7 +187,7 @@ public class RecipeGUI {
                         recipes.updateRecipe(row, foodField.getText(), categoryField.getText(),
                                 Splitter.stringToCommaString(ingredientField.getText()),
                                 Splitter.stringToCommaString(instructionField.getText()));
-                        showRecipeList();
+                        createPanel();
                     }
                 });
                 buttonPanel.add(save);
@@ -298,7 +197,7 @@ public class RecipeGUI {
                 cancel.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        showRecipeList();
+                        createPanel();
                     }
                 });
                 buttonPanel.add(cancel);
@@ -445,101 +344,6 @@ public class RecipeGUI {
         contentPanel.add(scrollTable, BorderLayout.EAST);
         contentPanel.revalidate();
         contentPanel.repaint();
+
     }
-
-    public JPanel createListItemPanel(Food recipe) {
-        JPanel itemPanel = new JPanel();
-        itemPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-        itemPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.GRAY)); // Separator
-
-        ImageIcon imageIcon = new ImageIcon("src/images/" + recipe.getName().replace(" ", "") + ".png");
-        Image image = imageIcon.getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH);
-        JLabel imageLabel = new JLabel(new ImageIcon(image));
-        itemPanel.add(imageLabel);
-
-        JLabel nameLabel = new JLabel(recipe.getName());
-        nameLabel.setFont(new Font("Roboto", Font.PLAIN, 14));
-        itemPanel.add(nameLabel);
-
-        return itemPanel;
-    }
-
-    public JPanel createRecipePanel(String title) {
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // Add padding
-
-        JLabel titleLabel = new JLabel(title);
-        titleLabel.setFont(new Font("Roboto", Font.BOLD, 20)); // Increased font size
-        titleLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        panel.add(titleLabel);
-        panel.add(Box.createRigidArea(new Dimension(0, 10))); // Space after title
-
-        JPanel recipeGrid = new JPanel(new GridLayout(1, 4, 15, 15));
-        recipeGrid.setAlignmentX(Component.LEFT_ALIGNMENT); // Align grid to the left
-
-        int count = 0;
-        while (count < 5) {
-            int rand = recipes.suggestRecipe();
-            Food recipe = recipes.recipeInfoIndex(rand);
-            if (count >= 5)
-                break; // Display only 4 recipes
-            JPanel itemPanel = new JPanel(new BorderLayout());
-            itemPanel.setBackground(Color.WHITE); // White background for recipe items
-            itemPanel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
-
-            ImageIcon imageIcon = new ImageIcon(imgSrc + recipe.getName().replace(" ", "") + ".jpg");
-            Image image = imageIcon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
-            JLabel imageLabel = new JLabel(new ImageIcon(image));
-            itemPanel.add(imageLabel, BorderLayout.CENTER);
-
-            JLabel nameLabel = new JLabel(recipe.getName(), SwingConstants.CENTER);
-            nameLabel.setFont(new Font("Roboto", Font.BOLD, 14)); // Bold recipe names
-            itemPanel.add(nameLabel, BorderLayout.SOUTH);
-
-            recipeGrid.add(itemPanel);
-            count++;
-        }
-
-        panel.add(recipeGrid);
-        return panel;
-    }
-
-    public class NavButtonListener implements ActionListener {
-        private String itemName;
-
-        public NavButtonListener(String itemName) {
-            this.itemName = itemName;
-        }
-
-        // action from navigation panel to switch to each sections
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            Component[] components = ((JPanel) frame.getContentPane().getComponent(0)).getComponents();
-            for (Component component : components) {
-                if (component instanceof JButton) {
-                    component.setBackground(new Color(208, 74, 101));
-                }
-            }
-            // Highlight the selected button when click
-            ((JButton) e.getSource()).setBackground(new Color(193, 75, 89));
-
-            if (itemName.equals("Main")) {
-                showMainContent();
-            } else if (itemName.equals("List")) {
-                FoodList listPanel = new FoodList(contentPanel, recipes);
-                listPanel.createPanel();
-            } else if (itemName.equals("New Recipe")) {
-                AddRecipe addPanel = new AddRecipe(contentPanel, recipes);
-                addPanel.createPanel();
-            } else if (itemName.equals("Tutorial")) {
-                Tutorial tutorialPanel = new Tutorial(contentPanel);
-                tutorialPanel.createPanel();
-            } else if (itemName.equals("About Us")) {
-        AboutUs infoPanel = new AboutUs(contentPanel);
-                infoPanel.createPanel();
-            }
-        }
-    }
-
 }

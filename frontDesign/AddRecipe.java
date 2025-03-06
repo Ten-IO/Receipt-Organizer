@@ -6,23 +6,27 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+
+import recipe.ImageHandler;
 import recipe.Recipes;
 
 public class AddRecipe {
     private JPanel contentRecipes;
+    private JPanel contentPanel;
+    private ImageHandler img;
     private Recipes recipes;
     private Font font = new Font("Roboto", Font.PLAIN, 14);
     private File selectedFile;
 
     public AddRecipe(JPanel contentPanel, Recipes recipes) {
         this.recipes = recipes;
-        contentRecipe(contentPanel);
+        this.contentPanel = contentPanel;
     }
 
-    private void contentRecipe(JPanel contentPanel) {
+    public void createPanel() {
         contentPanel.removeAll(); 
-        contentRecipes = new JPanel(new BorderLayout()); // Create the new panel.
-        contentRecipes.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Set insets for the panel
+        contentRecipes = new JPanel(new BorderLayout()); 
+        contentRecipes.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         JLabel titleLabel = new JLabel("Add Your Recipes", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Roboto", Font.BOLD, 24));
         JPanel textPanel = new JPanel();
@@ -42,7 +46,7 @@ public class AddRecipe {
         nameField.setAlignmentX(Component.CENTER_ALIGNMENT);
         nameField.setFont(font);
         nameField.setMaximumSize(new Dimension(Integer.MAX_VALUE, nameField.getPreferredSize().height));
-        uploadInfo.add(Box.createVerticalStrut(10)); // add space between components
+        uploadInfo.add(Box.createVerticalStrut(10));
         uploadInfo.add(nameField);
 
         HintTextArea categoryField = new HintTextArea("Food's Category");
@@ -90,7 +94,7 @@ public class AddRecipe {
             String ingredient = ingredientField.getText().trim();
             String instruction = instructionField.getText().trim();
 
-            // Validation check for empty fields
+            // check for empty fields
             if (name.isEmpty() || category.isEmpty() || ingredient.isEmpty() || instruction.isEmpty()
                     || selectedFile == null) {
                 JOptionPane.showMessageDialog(null, "All FIELDS must be filled and a PHOTO must be selected.", "Error",
@@ -99,7 +103,7 @@ public class AddRecipe {
             }
 
             // Rename and save the file
-            String newFileName = name + getFileExtension(selectedFile.getName());
+            String newFileName = name + img.getFileExt(selectedFile.getName());
             File destFile = new File("src/images/" + newFileName);
             try {
                 Files.copy(selectedFile.toPath(), destFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
@@ -121,13 +125,6 @@ public class AddRecipe {
         contentPanel.repaint();
     }
 
-    private String getFileExtension(String fileName) {
-        int index = fileName.lastIndexOf('.');
-        if (index > 0 && index < fileName.length() - 1) {
-            return fileName.substring(index);
-        }
-        return "";
-    }
 
     public JPanel getContentPanel() {
         return contentRecipes;

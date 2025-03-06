@@ -29,12 +29,11 @@ public class AutoSuggestSearchField extends JTextField {
         suggestionList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 1) { // Change to 2 for double-click
+                if (e.getClickCount() == 1) {
                     String selectedValue = suggestionList.getSelectedValue();
                     setText(selectedValue);
                     suggestionPopup.setVisible(false);
 
-                    // Notify the listener that a suggestion was selected
                     if (searchFieldListener != null) {
                         searchFieldListener.onSuggestionSelected(selectedValue);
                     }
@@ -47,15 +46,15 @@ public class AutoSuggestSearchField extends JTextField {
         setBorder(new EmptyBorder(top, left, bottom, right));
         listModel = new DefaultListModel<>();
 
-        // store the founding from key Listener
+        // get foundings from key Listener
         suggestionList = new JList<>(listModel);
         suggestionList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        suggestionList.setBorder(BorderFactory.createEmptyBorder(0, 0, 50, getWidth()));
+        suggestionList.setBorder(BorderFactory.createEmptyBorder(0, 0, 50, Integer.MAX_VALUE));
         HoverListCellRenderer renderer = new HoverListCellRenderer();
         suggestionList.setCellRenderer(renderer);
         suggestionPopup = new JPopupMenu();
         suggestionPopup.setFocusable(false);
-        suggestionPopup.setBorder(BorderFactory.createEmptyBorder());
+        suggestionPopup.setBorder(BorderFactory.createEmptyBorder(3,2,50,getWidth()));
         JScrollPane scrollPane = new JScrollPane(suggestionList);
         scrollPane.setBorder(BorderFactory.createEmptyBorder(3, 0, 10, 10));
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
