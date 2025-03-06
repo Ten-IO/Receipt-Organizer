@@ -23,6 +23,7 @@ public class RecipeGui {
     private Recipes recipes;
     private NavigationPanel navigation;
     private String imgSrc = "src/images/";
+    private String fileSrc = "src/files/";
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new RecipeGui().showUI());
@@ -64,9 +65,9 @@ public class RecipeGui {
         frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                txtHandler.writeToTxt(imgSrc + "localFood.txt");
+                txtHandler.writeToTxt(fileSrc + "localFood.txt");
                 System.out.println("Saving text");
-                csvHandler.writeToCsv(imgSrc + "localFood.csv");
+                csvHandler.writeToCsv( fileSrc+ "localFood.csv");
                 System.out.println("Saving saving csv");
             }
         });

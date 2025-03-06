@@ -34,6 +34,7 @@ import recipe.Splitter;
 public class FoodList {
     private JPanel contentPanel;
     private Recipes recipes;
+    private String imgSrc;
 
     FoodList(JPanel contentPanel, Recipes recipes) {
         this.contentPanel = contentPanel;
@@ -242,7 +243,7 @@ public class FoodList {
                 gbc.weightx = 0.5;
                 gbc.weighty = 0.5;
 
-                ImageIcon imageIcon = new ImageIcon("src/images/" + food.replace(" ", "") + ".jpg");
+                ImageIcon imageIcon = new ImageIcon(imgSrc+ food.replace(" ", "") + ".jpg");
                 Image image = imageIcon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH); // Adjust size
                 JLabel photoLabel = new JLabel(new ImageIcon(image));
                 viewPanel.add(photoLabel, gbc);

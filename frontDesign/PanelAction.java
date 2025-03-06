@@ -12,13 +12,14 @@ public class PanelAction extends javax.swing.JPanel {
     private ActionButton viewButton;
     private ActionButton editButton;
     private ActionButton deleteButton;
+    private String imgSrc = "src/images/";
 
     public PanelAction() {
-        Image editIconImage = new ImageIcon("src/images/edit.png").getImage().getScaledInstance(20, 20,
+        Image editIconImage = new ImageIcon(imgSrc + "edit.png").getImage().getScaledInstance(20, 20,
                 Image.SCALE_SMOOTH);
-        Image deleteIconImage = new ImageIcon("src/images/remove.png").getImage().getScaledInstance(20, 20,
+        Image deleteIconImage = new ImageIcon(imgSrc + "remove.png").getImage().getScaledInstance(20, 20,
                 Image.SCALE_SMOOTH);
-        Image viewIconImage = new ImageIcon("src/images/view.png").getImage().getScaledInstance(20, 20,
+        Image viewIconImage = new ImageIcon(imgSrc + "view.png").getImage().getScaledInstance(20, 20,
                 Image.SCALE_SMOOTH);
 
         // Create ImageIcons from the rescaled images

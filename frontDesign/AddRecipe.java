@@ -15,6 +15,7 @@ public class AddRecipe {
     private JPanel contentPanel;
     private ImageHandler img;
     private Recipes recipes;
+    private String imgSrc = "src/images/";
     private Font font = new Font("Roboto", Font.PLAIN, 14);
     private File selectedFile;
 
@@ -104,7 +105,7 @@ public class AddRecipe {
 
             // Rename and save the file
             String newFileName = name + img.getFileExt(selectedFile.getName());
-            File destFile = new File("src/images/" + newFileName);
+            File destFile = new File(imgSrc + newFileName);
             try {
                 Files.copy(selectedFile.toPath(), destFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
                 JOptionPane.showMessageDialog(null, "File saved as: " + destFile.getPath());

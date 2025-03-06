@@ -28,7 +28,8 @@ import recipe.TxtHandler;
 
 public class CreateMainContentPanel {
     private Recipes recipes;
-    private int amount = 5;
+    private int amount = 20;
+    private String imgSrc = "src/images/";
 
     public CreateMainContentPanel(Recipes recipes) {
         TxtHandler txtHandler = new TxtHandler(recipes);
@@ -51,10 +52,11 @@ public class CreateMainContentPanel {
         recipeGrid.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         int count = 0;
+        int recent = recipes.getCount();
         while (count < amount) {
             Food recipe;
             if (!title.equalsIgnoreCase("Today's Recipe")) {
-                recipe = recipes.recipeInfoIndex(count);
+                recipe = recipes.recipeInfoIndex(--recent);
             } else {
                 int rand = recipes.suggestRecipe();
                 recipe = recipes.recipeInfoIndex(rand);
@@ -66,7 +68,7 @@ public class CreateMainContentPanel {
             itemPanel.setBackground(Color.WHITE);
             itemPanel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 
-            ImageIcon imageIcon = ImageUtils.getScaledImageIcon("src/images/", recipe.getName().replace(" ", ""), 200,
+            ImageIcon imageIcon = ImageUtils.getScaledImageIcon(imgSrc, recipe.getName().replace(" ", ""), 200,
                     200);
             JLabel imageLabel = new JLabel(imageIcon);
             itemPanel.add(imageLabel, BorderLayout.CENTER);
@@ -113,7 +115,7 @@ public class CreateMainContentPanel {
         foodLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         infoPanel.add(foodLabel);
 
-        ImageIcon imageIcon = ImageUtils.getScaledImageIcon("src/images/", recipe.getName().replace(" ", ""), 200, 200);
+        ImageIcon imageIcon = ImageUtils.getScaledImageIcon(imgSrc, recipe.getName().replace(" ", ""), 200, 200);
         JLabel imageLabel = new JLabel(imageIcon);
         imageLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         infoPanel.add(imageLabel);
