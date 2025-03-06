@@ -1,14 +1,15 @@
 package frontDesign;
 
 import java.util.List;
+
 import javax.swing.table.AbstractTableModel;
 
 import recipe.Food;
 
-    // similar to DefaultTableModel, but we can gave new type of arguments
+// similar to DefaultTableModel, but we can gave new type of arguments
 public class FoodTableModel extends AbstractTableModel {
     private List<Food> foodList;
-    private String[] columnNames = { "Name", "Category", "Choice"};
+    private String[] columnNames = { "Name", "Category", "Choice" };
 
     public FoodTableModel(List<Food> foodList) {
         this.foodList = foodList;
@@ -28,6 +29,7 @@ public class FoodTableModel extends AbstractTableModel {
     public String getColumnName(int column) {
         return columnNames[column];
     }
+
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         Food food = foodList.get(rowIndex);
@@ -45,7 +47,7 @@ public class FoodTableModel extends AbstractTableModel {
     // forget this, table does not return cell for edit
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
-        
+
         return columnIndex == 2;
     }
 

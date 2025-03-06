@@ -13,7 +13,6 @@ public class PanelAction extends javax.swing.JPanel {
     private ActionButton editButton;
     private ActionButton deleteButton;
 
-
     public PanelAction() {
         Image editIconImage = new ImageIcon("src/images/edit.png").getImage().getScaledInstance(20, 20,
                 Image.SCALE_SMOOTH);

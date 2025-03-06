@@ -24,8 +24,8 @@ public class AddRecipe {
     }
 
     public void createPanel() {
-        contentPanel.removeAll(); 
-        contentRecipes = new JPanel(new BorderLayout()); 
+        contentPanel.removeAll();
+        contentRecipes = new JPanel(new BorderLayout());
         contentRecipes.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         JLabel titleLabel = new JLabel("Add Your Recipes", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Roboto", Font.BOLD, 24));
@@ -33,7 +33,7 @@ public class AddRecipe {
         textPanel.setLayout(new BorderLayout());
         textPanel.add(titleLabel, BorderLayout.NORTH);
 
-        // Replace text with file chooser
+        // File chooser for surf through files for images, get Value to current imageSource
         JPanel filePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JButton chooseFileButton = new JButton("Choose Photo");
         filePanel.add(chooseFileButton);
@@ -124,7 +124,6 @@ public class AddRecipe {
         contentPanel.revalidate();
         contentPanel.repaint();
     }
-
 
     public JPanel getContentPanel() {
         return contentRecipes;

@@ -1,9 +1,15 @@
 package frontDesign;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Insets;
+import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.*;
+
+import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
 public class HintTextArea extends JTextArea {
@@ -12,7 +18,7 @@ public class HintTextArea extends JTextArea {
 
     public HintTextArea(int top, int bottom, int left, int right) {
         setBorder(new EmptyBorder(top, left, bottom, right));
-        
+
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent me) {
@@ -73,6 +79,6 @@ public class HintTextArea extends JTextArea {
 
     @Override
     public Insets getInsets() {
-        return new Insets(5, 5, 5, 5); 
+        return new Insets(5, 5, 5, 5);
     }
 }

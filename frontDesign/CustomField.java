@@ -90,7 +90,8 @@ public class CustomField extends JTextField {
         double width = getWidth(); // total width
         double textX = (width - r2.getWidth()) * 0.01; // adjust pos (slight left indent)
         Composite originalComposite = g2.getComposite();
-        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, location)); // set transparency based on location
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, location)); // set transparency based on
+                                                                                        // location
         g2.drawString(labelText, (int) textX, (int) (height + fnt.getAscent() / 2));
         g2.setComposite(originalComposite); // reset to original composite
     }
