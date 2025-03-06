@@ -5,12 +5,10 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-
 import javax.imageio.ImageIO;
 
 public class ImageHandler {
-    private static final String[] allowed_EXTENSION = { "jpg",
-            "jpeg", "png" };
+    private static final String[] ALLOWED_EXTENSIONS = { "jpg", "jpeg", "png" };
 
     public BufferedImage readImage(File sourceFile, String filename) throws IOException {
         if (sourceFile == null || filename == null) {
@@ -36,7 +34,7 @@ public class ImageHandler {
     }
 
     public boolean isAllowed(String extension) {
-        for (String allowed : allowed_EXTENSION) {
+        for (String allowed : ALLOWED_EXTENSIONS) {
             if (allowed.equalsIgnoreCase(extension)) {
                 return true;
             }
@@ -52,10 +50,11 @@ public class ImageHandler {
 
         BufferedImage image = ImageIO.read(new File(sourceFile, filename));
         if (image == null) {
-            throw new IOException("Not valid image" + sourceFile.getAbsolutePath());
+            throw new IOException("Not a valid image: " + sourceFile.getAbsolutePath());
         }
+
         if (!ImageIO.write(image, ext, destination)) {
-            throw new IOException("Failed to write image in" + ext);
+            throw new IOException("Failed to write image in " + ext);
         }
     }
 
@@ -64,5 +63,15 @@ public class ImageHandler {
             throw new IllegalArgumentException("Unsupported extension");
         }
         Files.copy(sourceFile.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
+    }
+
+    public File getImageFile(String basePath, String imageName) {
+        for (String ext : ALLOWED_EXTENSIONS) {
+            File file = new File(basePath + imageName + "." + ext);
+            if (file.exists()) {
+                return file;
+            }
+        }
+        return null;
     }
 }
