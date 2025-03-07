@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -34,7 +35,7 @@ import recipe.Splitter;
 public class FoodList {
     private JPanel contentPanel;
     private Recipes recipes;
-    private String imgSrc;
+    private String imgSrc = "src/images/";
 
     FoodList(JPanel contentPanel, Recipes recipes) {
         this.contentPanel = contentPanel;
@@ -244,7 +245,7 @@ public class FoodList {
                 gbc.weightx = 0.5;
                 gbc.weighty = 0.5;
 
-                ImageIcon imageIcon = new ImageIcon(imgSrc+ food.replace(" ", "") + ".jpg");
+                ImageIcon imageIcon = new ImageIcon(imgSrc + food.replace(" ", "") + ".jpg");
                 Image image = imageIcon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH); // Adjust size
                 JLabel photoLabel = new JLabel(new ImageIcon(image));
                 viewPanel.add(photoLabel, gbc);

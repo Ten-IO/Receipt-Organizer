@@ -25,7 +25,7 @@ public class ChatBot {
         JPanel chatPanel = new JPanel(new BorderLayout());
         chatPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         
-        JLabel titleLabel = new JLabel("Dom ChatBot", SwingConstants.CENTER);
+        JLabel titleLabel = new JLabel("FoodIO ChatBot", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Roboto", Font.BOLD, 24));
         chatPanel.add(titleLabel, BorderLayout.NORTH);
 
