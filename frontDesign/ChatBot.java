@@ -13,8 +13,8 @@ public class ChatBot {
     private JPanel contentPanel;
     private JTextArea chatArea;
     private JTextField inputField;
-    private static final String API_KEY = "AIzaSyCTvaj10eb2OtYD-CeYV2njL7kozqyo6_U";
-    private static final String API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" + API_KEY;
+    private static final String API_KEY = "lol";
+    private static final String API_URL = "lol" + API_KEY;
 
     public ChatBot(JPanel contentPanel) {
         this.contentPanel = contentPanel;
