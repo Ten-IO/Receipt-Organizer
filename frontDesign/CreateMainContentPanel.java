@@ -24,16 +24,13 @@ import javax.swing.SwingConstants;
 import ImageRender.ImageUtils;
 import recipe.Food;
 import recipe.Recipes;
-import recipe.TxtHandler;
 
 public class CreateMainContentPanel {
     private Recipes recipes;
-    private int amount = 20;
+    private int amount = 5;
     private String imgSrc = "src/images/";
 
     public CreateMainContentPanel(Recipes recipes) {
-        TxtHandler txtHandler = new TxtHandler(recipes);
-        txtHandler.readFromTxt("filterlocalFood.txt");
         this.recipes = recipes;
     }
 

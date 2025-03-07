@@ -49,7 +49,8 @@ public class FoodList {
         for (Food food : recipes.recipeList) {
             recipeNames.add(food.getName());
         }
-        // search
+
+        // Search
         AutoSuggestSearchField field = new AutoSuggestSearchField(recipeNames);
         JPanel Panel1 = new JPanel(new BorderLayout());
         JPanel searchPanel = new JPanel(new BorderLayout());
@@ -60,7 +61,7 @@ public class FoodList {
         FoodTableModel foodTable = new FoodTableModel(recipes.recipeList);
         JTable table = new JTable(foodTable);
         table.getColumnModel().getColumn(0).setPreferredWidth(50);
-        table.getColumnModel().getColumn(1).setPreferredWidth(20);
+        table.getColumnModel().getColumn(2).setPreferredWidth(5);
         table.setRowHeight(40);
         FoodTableModel obj = (FoodTableModel) table.getModel();
         TableRowSorter<FoodTableModel> objNew = new TableRowSorter<>(obj);
@@ -122,12 +123,12 @@ public class FoodList {
 
                 gbc.gridy++;
                 gbc.fill = GridBagConstraints.BOTH; // Allow vertical fill
-                gbc.weighty = 0.1; // Give it some vertical weight
+                gbc.weighty = 0.1; 
                 editPanel.add(foodScrollPane, gbc);
 
                 gbc.gridy++;
                 gbc.fill = GridBagConstraints.HORIZONTAL;
-                gbc.weighty = 0; // Reset vertical weight
+                gbc.weighty = 0; 
                 JLabel categoryLabel = new JLabel("Category");
                 JTextArea categoryField = new JTextArea(recipes.recipeList.get(row).getCategory());
                 JScrollPane categoryScrollPane = new JScrollPane(categoryField);

@@ -42,7 +42,7 @@ public class NavigationPanel {
         navPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         navPanel.add(logoLabel);
 
-        String[] navItems = { "Main", "List", "New Recipe", "Tutorial", "About Us" };
+        String[] navItems = { "Main", "List", "New Recipe", "Tutorial", "About Us", "Chat Bot" };
         for (String item : navItems) {
             JButton button = new JButton(item);
             button.setOpaque(false);

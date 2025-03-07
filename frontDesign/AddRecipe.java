@@ -9,6 +9,7 @@ import java.nio.file.StandardCopyOption;
 
 import recipe.ImageHandler;
 import recipe.Recipes;
+import recipe.Splitter;
 
 public class AddRecipe {
     private JPanel contentRecipes;
@@ -22,24 +23,28 @@ public class AddRecipe {
     public AddRecipe(JPanel contentPanel, Recipes recipes) {
         this.recipes = recipes;
         this.contentPanel = contentPanel;
+        // Instantiate the ImageHandler so it is ready when copying file
+        this.img = new ImageHandler();  
     }
 
     public void createPanel() {
         contentPanel.removeAll();
         contentRecipes = new JPanel(new BorderLayout());
         contentRecipes.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        
+        // Title section
         JLabel titleLabel = new JLabel("Add Your Recipes", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Roboto", Font.BOLD, 24));
-        JPanel textPanel = new JPanel();
-        textPanel.setLayout(new BorderLayout());
+        JPanel textPanel = new JPanel(new BorderLayout());
         textPanel.add(titleLabel, BorderLayout.NORTH);
 
-        // File chooser for surf through files for images, get Value to current imageSource
+        // File chooser panel
         JPanel filePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JButton chooseFileButton = new JButton("Choose Photo");
         filePanel.add(chooseFileButton);
         textPanel.add(filePanel, BorderLayout.CENTER);
 
+        // Upload input fields panel
         JPanel uploadInfo = new JPanel();
         uploadInfo.setLayout(new BoxLayout(uploadInfo, BoxLayout.Y_AXIS));
 
@@ -58,22 +63,22 @@ public class AddRecipe {
         uploadInfo.add(categoryField);
 
         HintTextArea ingredientField = new HintTextArea("Ingredients");
-        JScrollPane IngredientPane = new JScrollPane(ingredientField);
+        JScrollPane ingredientPane = new JScrollPane(ingredientField);
         ingredientField.setFont(font);
-        IngredientPane.setAlignmentX(Component.CENTER_ALIGNMENT);
-        IngredientPane.setMaximumSize(new Dimension(Integer.MAX_VALUE, 150));
+        ingredientPane.setAlignmentX(Component.CENTER_ALIGNMENT);
+        ingredientPane.setMaximumSize(new Dimension(Integer.MAX_VALUE, 150));
         uploadInfo.add(Box.createVerticalStrut(10));
-        uploadInfo.add(IngredientPane);
+        uploadInfo.add(ingredientPane);
 
         HintTextArea instructionField = new HintTextArea("Instructions");
+        JScrollPane instructionPane = new JScrollPane(instructionField);
         instructionField.setFont(font);
-        JScrollPane InstructionPane = new JScrollPane(instructionField);
-        InstructionPane.setAlignmentX(Component.CENTER_ALIGNMENT);
-        InstructionPane.setMaximumSize(new Dimension(Integer.MAX_VALUE, 200));
+        instructionPane.setAlignmentX(Component.CENTER_ALIGNMENT);
+        instructionPane.setMaximumSize(new Dimension(Integer.MAX_VALUE, 200));
         uploadInfo.add(Box.createVerticalStrut(10));
-        uploadInfo.add(InstructionPane);
+        uploadInfo.add(instructionPane);
 
-        // Add action listener to the choose file button
+        // File chooser action
         chooseFileButton.addActionListener(e -> {
             JFileChooser fileChooser = new JFileChooser();
             int result = fileChooser.showOpenDialog(null);
@@ -83,40 +88,64 @@ public class AddRecipe {
             }
         });
 
+        // Submit recipe button
         JButton submitButton = new JButton("Submit");
         submitButton.setFocusable(false);
         submitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         uploadInfo.add(Box.createVerticalStrut(10));
         uploadInfo.add(submitButton);
 
+        // Submit action: filtering input via Splitter and handling exceptions
         submitButton.addActionListener(e -> {
-            String name = nameField.getText().trim();
-            String category = categoryField.getText().trim();
-            String ingredient = ingredientField.getText().trim();
-            String instruction = instructionField.getText().trim();
-
-            // check for empty fields
-            if (name.isEmpty() || category.isEmpty() || ingredient.isEmpty() || instruction.isEmpty()
-                    || selectedFile == null) {
-                JOptionPane.showMessageDialog(null, "All FIELDS must be filled and a PHOTO must be selected.", "Error",
-                        JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            // Rename and save the file
-            String newFileName = name + img.getFileExt(selectedFile.getName());
-            File destFile = new File(imgSrc + newFileName);
             try {
-                Files.copy(selectedFile.toPath(), destFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                JOptionPane.showMessageDialog(null, "File saved as: " + destFile.getPath());
+                String name = nameField.getText().trim();
+                String category = categoryField.getText().trim();
+                String ingredient = ingredientField.getText().trim();
+                String instruction = instructionField.getText().trim();
+
+                // Check for empty fields
+                if (name.isEmpty() || category.isEmpty() || ingredient.isEmpty() 
+                        || instruction.isEmpty() || selectedFile == null) {
+                    JOptionPane.showMessageDialog(null, 
+                            "All FIELDS must be filled and a PHOTO must be selected.", 
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                // Filter input: if ingredients or instructions are in list format using newlines and "- "
+                if (ingredient.contains("\n") && ingredient.contains("- ")) {
+                    ingredient = Splitter.stringToCommaString(ingredient);
+                }
+                if (instruction.contains("\n") && instruction.contains("- ")) {
+                    instruction = Splitter.stringToCommaString(instruction);
+                }
+
+                // Rename and save the file
+                // Retrieve the file extension using ImageHandler
+String extension = img.getFileExt(selectedFile.getName());
+// Construct the new file name, adding a dot if the extension is not empty
+String newFileName = extension.isEmpty() ? name : name + "." + extension;
+
+File destFile = new File(imgSrc + newFileName);
+
+
+    Files.copy(selectedFile.toPath(), destFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+    JOptionPane.showMessageDialog(null, "File saved as: " + destFile.getPath());
+
+
+                // Confirmation dialog with the final recipe details
+                JOptionPane.showMessageDialog(null, "Recipe: " + name +
+                        "\nCategory: " + category + "\nIngredients:\n" + ingredient +
+                        "\nInstructions:\n" + instruction);
+
+                // Create recipe using filtered input
+                recipes.makeRecipe(name, category, ingredient, instruction);
             } catch (IOException ioException) {
                 JOptionPane.showMessageDialog(null, "Error saving file: " + ioException.getMessage());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null, "An error occurred: " + ex.getMessage());
             }
-
-            JOptionPane.showMessageDialog(null, "Recipe: " + name +
-                    "\nCategory: " + category + "\nIngredients:\n" + ingredient + "\nInstructions:\n" + instruction);
-
-            recipes.makeRecipe(name, category, ingredient, instruction);
         });
 
         contentRecipes.add(textPanel, BorderLayout.NORTH);

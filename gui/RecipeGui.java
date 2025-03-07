@@ -36,7 +36,7 @@ public class RecipeGui {
         txtHandler = new TxtHandler(recipes);
         csvHandler = new CsvHandler(recipes);
 
-        txtHandler.readFromTxt("filterlocalFood.txt");
+        txtHandler.readFromTxt(fileSrc +"filterlocalFood.txt");
 
         // App setting
         frame = new JFrame("Food IO");

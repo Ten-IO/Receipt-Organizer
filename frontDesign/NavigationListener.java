@@ -51,6 +51,9 @@ public class NavigationListener implements ActionListener {
         } else if (itemName.equals("About Us")) {
             AboutUs infoPanel = new AboutUs(contentPanel);
             infoPanel.createPanel();
+        } else if (itemName.equals("Chat Bot")) {
+            ChatBot chat = new ChatBot(contentPanel);
+            chat.createPanel();
         }
     }
 }
