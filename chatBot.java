@@ -12,7 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class chatBot {
-    private static final String API_KEY = "AIzaSyCTvaj10eb2OtYD-CeYV2njL7kozqyo6_U";
+    private static final String API_KEY = "lol";
     private static final String API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" + API_KEY;
     private JPanel chatPanel;
     private JTextArea chatArea;
