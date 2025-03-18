@@ -70,6 +70,7 @@ public class RecipeGUI {
             @Override
             public void windowClosing(WindowEvent e) {
                 txtHandler.writeToTxt("src/files/localFood.txt");
+                CsvToMysql.toMysql("src/files/localFood.csv");
                 System.out.println("saving text");
             }
         });
