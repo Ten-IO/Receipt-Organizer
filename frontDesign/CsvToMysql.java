@@ -10,38 +10,44 @@ import java.sql.SQLException;
 
 public class CsvToMysql {
 
-    public static void main(String[] args) {
-        String jdbcUrl = "jdbc:mysql://localhost:3306/recipe_db";
-        String username = "root"; 
-        String password = "admin123"; 
-        String csvFilePath = "src/files/localFood.csv"; 
+    public static void toMysql(String csvFilePaths) {
+        String jdbcUrl = "jdbc:mysql://localhost:3306/myDB";
+        String username = "root";
+        String password = "admin123";
+        String csvFilePath = csvFilePaths;
 
         try (Connection connection = DriverManager.getConnection(jdbcUrl, username, password);
              BufferedReader reader = new BufferedReader(new FileReader(csvFilePath))) {
 
-            String line;
-            // for skipping header row
-            reader.readLine(); 
+            // Delete all existing data before inserting new data
+            String deleteSql = "DELETE FROM recipe2";
+            try (PreparedStatement deleteStatement = connection.prepareStatement(deleteSql)) {
+                deleteStatement.executeUpdate();
+                System.out.println("All existing data deleted.");
+            }
 
-            int o=0;
-            String sql = "INSERT INTO recipes (Name, Category, Ingredients, Instructions) VALUES (?, ?, ?, ?)";
+            // Skip header row
+            reader.readLine();
+
+            String sql = "INSERT INTO recipe2 (Name, Category, Ingredient, Instructions) VALUES (?, ?, ?, ?)";
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                String line;
+                int count = 0;
 
                 while ((line = reader.readLine()) != null) {
                     String[] values = line.split("\",\"");
                     if (values.length == 4) {
-
-                        // remove trailing quote from csv
-                        values[0] = values[0].replace("\"", "");
-                        values[3] = values[3].replace("\"", "");
+                        values[0] = values[0].replace("\"", ""); // Remove leading quote
+                        values[3] = values[3].replace("\"", ""); // Remove trailing quote
 
                         preparedStatement.setString(1, values[0]);
                         preparedStatement.setString(2, values[1]);
                         preparedStatement.setString(3, values[2]);
                         preparedStatement.setString(4, values[3]);
                         preparedStatement.executeUpdate();
-                        System.out.println(o++);
-                    } else{
+
+                        System.out.println("Inserted row: " + ++count);
+                    } else {
                         System.err.println("Skipping malformed line: " + line);
                     }
                 }
