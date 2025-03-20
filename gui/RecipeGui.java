@@ -58,9 +58,10 @@ public class RecipeGui {
         JPanel navPanel = navigation.createPanel();
         frame.add(navPanel, BorderLayout.NORTH);
 
-        // Show Main Content by default
+        // Main Content by default
         MainContent mainScene = new MainContent(contentPanel, recipes);
         mainScene.createPanel();
+        frame.setLocationRelativeTo(null);
 
         frame.setVisible(true);
 
