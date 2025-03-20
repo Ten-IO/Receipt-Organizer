@@ -11,7 +11,6 @@ import java.awt.geom.Ellipse2D;
 import javax.swing.JButton;
 import javax.swing.border.EmptyBorder;
 
-// Action button for Table Action column load button
 public class ActionButton extends JButton {
     private boolean mousePress;
 

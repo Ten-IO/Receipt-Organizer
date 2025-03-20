@@ -4,8 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
@@ -37,16 +37,18 @@ public class CreateMainContentPanel {
     public JPanel createRecipePanel(String title) {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        panel.setBorder(BorderFactory.createEmptyBorder(5, 20, 0, 20));
 
         JLabel titleLabel = new JLabel(title);
         titleLabel.setFont(new Font("Roboto", Font.BOLD, 20));
         titleLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         panel.add(titleLabel);
-        panel.add(Box.createRigidArea(new Dimension(0, 10)));
+        panel.add(Box.createRigidArea(new Dimension(0, 5)));
 
-        JPanel recipeGrid = new JPanel(new GridLayout(1, amount, 15, 15));
+        CurvedPanel recipeGrid = new CurvedPanel(10, 10);
+        recipeGrid.setLayout(new FlowLayout(FlowLayout.LEFT, 50, 10));
         recipeGrid.setAlignmentX(Component.LEFT_ALIGNMENT);
+        recipeGrid.setBackground(Color.gray);
 
         int count = 0;
         int recent = recipes.getCount();
@@ -61,23 +63,23 @@ public class CreateMainContentPanel {
             if (count >= amount)
                 break;
 
-            JPanel itemPanel = new JPanel(new BorderLayout());
+            CurvedPanel itemPanel = new CurvedPanel(15, 15);
+            itemPanel.setLayout(new BorderLayout());
             itemPanel.setBackground(Color.WHITE);
-            itemPanel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 
-            ImageIcon imageIcon = ImageUtils.getScaledImageIcon(imgSrc, recipe.getName().replace(" ", ""), 200,
+            ImageIcon imageIcon = ImageUtils.getScaledImageIcon(imgSrc, recipe.getName().replaceAll("[,_ ]", ""), 200,
                     200);
-            JLabel imageLabel = new JLabel(imageIcon);
-            itemPanel.add(imageLabel, BorderLayout.CENTER);
+            RoundedImagePanel roundedImagePanel = new RoundedImagePanel(imageIcon);
+
+            itemPanel.add(roundedImagePanel, BorderLayout.CENTER);
 
             JLabel nameLabel = new JLabel(recipe.getName(), SwingConstants.CENTER);
             nameLabel.setFont(new Font("Roboto", Font.BOLD, 14));
+            nameLabel.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
             itemPanel.add(nameLabel, BorderLayout.SOUTH);
-
             recipeGrid.add(itemPanel);
             count++;
 
-            // Mouse listener for info
             itemPanel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -101,7 +103,6 @@ public class CreateMainContentPanel {
 
         JPanel infoPanel = new JPanel();
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
-        infoPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         String foodName = recipe.getName();
         String category = recipe.getCategory();
@@ -112,7 +113,7 @@ public class CreateMainContentPanel {
         foodLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         infoPanel.add(foodLabel);
 
-        ImageIcon imageIcon = ImageUtils.getScaledImageIcon(imgSrc, recipe.getName().replace(" ", ""), 200, 200);
+        ImageIcon imageIcon = ImageUtils.getScaledImageIcon(imgSrc, recipe.getName().replaceAll("[,_ ]", ""), 200, 200);
         JLabel imageLabel = new JLabel(imageIcon);
         imageLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         infoPanel.add(imageLabel);
@@ -128,6 +129,7 @@ public class CreateMainContentPanel {
         for (String ingredient : ingredients) {
             JCheckBox checkBox = new JCheckBox(ingredient);
             checkBox.setAlignmentX(Component.LEFT_ALIGNMENT);
+            checkBox.setFocusable(false);
             infoPanel.add(checkBox);
         }
 
@@ -138,10 +140,13 @@ public class CreateMainContentPanel {
         for (String instruction : instructions) {
             JCheckBox checkBox = new JCheckBox(instruction);
             checkBox.setAlignmentX(Component.LEFT_ALIGNMENT);
+            checkBox.setFocusable(false);
             infoPanel.add(checkBox);
         }
 
         infoFrame.add(new JScrollPane(infoPanel), BorderLayout.CENTER);
+        infoFrame.setLocationRelativeTo(null);
+
         infoFrame.setVisible(true);
     }
 

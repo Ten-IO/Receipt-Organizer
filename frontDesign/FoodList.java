@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -90,7 +89,7 @@ public class FoodList {
                 if (text == null || text.trim().isEmpty()) {
                     objNew.setRowFilter(null);
                 } else {
-                    // check sensitivity match (?i)
+                    // sensitivity match (?i)
                     objNew.setRowFilter(RowFilter.regexFilter("(?i)" + text));
                 }
             }
@@ -112,7 +111,7 @@ public class FoodList {
                 gbc.gridx = 0;
                 gbc.gridy = 0;
                 gbc.fill = GridBagConstraints.HORIZONTAL;
-                gbc.insets = new Insets(5, 5, 5, 5); // Add some padding
+                gbc.insets = new Insets(5, 5, 5, 5); 
 
                 JLabel foodLabel = new JLabel("Food");
                 JTextArea foodField = new JTextArea(recipes.recipeList.get(row).getName());
@@ -123,7 +122,7 @@ public class FoodList {
                 editPanel.add(foodLabel, gbc);
 
                 gbc.gridy++;
-                gbc.fill = GridBagConstraints.BOTH; // Allow vertical fill
+                gbc.fill = GridBagConstraints.BOTH;
                 gbc.weighty = 0.1; 
                 editPanel.add(foodScrollPane, gbc);
 
@@ -245,7 +244,7 @@ public class FoodList {
                 gbc.weightx = 0.5;
                 gbc.weighty = 0.5;
 
-                ImageIcon imageIcon = new ImageIcon(imgSrc + food.replace(" ", "") + ".jpg");
+                ImageIcon imageIcon = new ImageIcon(imgSrc + food.replaceAll("[, _]", "") + ".jpg");
                 Image image = imageIcon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH); // Adjust size
                 JLabel photoLabel = new JLabel(new ImageIcon(image));
                 viewPanel.add(photoLabel, gbc);
@@ -339,7 +338,6 @@ public class FoodList {
         actionColumn.setCellRenderer(new TableActionCellRenderer());
 
         // list cell for food
-        scrollTable.setPreferredSize(new Dimension(1100, 700));
         searchPanel.add(field, BorderLayout.NORTH);
         Panel1.add(searchPanel, BorderLayout.NORTH);
         Panel1.add(underSearchPanel, BorderLayout.SOUTH);
