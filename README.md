@@ -1,10 +1,11 @@
 
 
 # Title : FoodIO
-
-<div style="text-align: center;">
-    <img src="https://github.com/user-attachments/assets/a081f80c-e2d5-4c73-a22d-f6707ffd7b43" alt="food4">
-</div>
+<p align="center">
+    <div style="text-align: center;">
+        <img src="https://github.com/user-attachments/assets/a081f80c-e2d5-4c73-a22d-f6707ffd7b43" alt="food4">
+    </div>
+</p>
 
 :sunrise: User-friendly suggestion system.
 
