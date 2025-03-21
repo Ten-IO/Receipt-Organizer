@@ -1,6 +1,9 @@
 
 
-# Title : FoodIO ![alt text](food4-1.png)
+# Title : FoodIO
+
+<p align="center">![food4](https://github.com/user-attachments/assets/a081f80c-e2d5-4c73-a22d-f6707ffd7b43)</p>
+
 
 :sunrise: User-friendly suggestion system.
 
@@ -71,5 +74,5 @@ Project including :
 # About US :school:
 
 - Version : 1.0  
-- Supervisor : [srenty](https://github.com/srengty/)
+- Supervisor : [srengty](https://github.com/srengty/)
 - Organization : Institute of Technology of Cambodia
