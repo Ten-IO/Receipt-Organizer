@@ -46,9 +46,15 @@ public class ChatBot {
     public void actionPerformed(ActionEvent e) {
         String userInput = inputField.getText().trim();
        if (!userInput.isEmpty()) {
-            chatArea.append("You: " + "by crawling this https://github.com/Ten-IO/Receipt-Organizer/blob/main/src/files/localFood.txt" + userInput + "\n");
-            String response = getGeminiResponse(userInput);
+            chatArea.append("You: " + userInput + "\n");
+
+            // Process the query internally with the additional URL
+            String processedInput = "by crawling this https://github.com/Ten-IO/Receipt-Organizer/blob/main/src/files/localFood.txt " + userInput;
+            
+            // Send processed input to AI model
+            String response = getGeminiResponse(processedInput);
             chatArea.append("Gemini: " + response + "\n\n");
+            
             inputField.setText("");
         }
     }
