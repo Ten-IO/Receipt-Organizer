@@ -42,17 +42,24 @@ public class ChatBot {
         chatPanel.add(inputPanel, BorderLayout.SOUTH);
         
         sendButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String userInput = inputField.getText().trim();
-                if (!userInput.isEmpty()) {
-                    chatArea.append("You: " + userInput + "\n");
-                    String response = getGeminiResponse(userInput);
-                    chatArea.append("Gemini: " + response + "\n\n");
-                    inputField.setText("");
-                }
-            }
-        });
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String userInput = inputField.getText().trim();
+        
+        if (userInput.equals("How many food in my application")) {
+            chatArea.append("How many food in my application by crawling this https://github.com/Ten-IO/Receipt-Organizer/blob/main/src/files/localFood.txt\n");
+            String response = getGeminiResponse(userInput);
+            chatArea.append("Gemini: " + response + "\n\n");
+            inputField.setText("");
+        } else if (!userInput.isEmpty()) {
+            chatArea.append("You: " + userInput + "\n");
+            String response = getGeminiResponse(userInput);
+            chatArea.append("Gemini: " + response + "\n\n");
+            inputField.setText("");
+        }
+    }
+    });
+
         
         contentPanel.add(chatPanel);
         contentPanel.revalidate();
