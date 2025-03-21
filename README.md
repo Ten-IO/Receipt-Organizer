@@ -2,8 +2,9 @@
 
 # Title : FoodIO
 
-<p align="center">![food4](https://github.com/user-attachments/assets/a081f80c-e2d5-4c73-a22d-f6707ffd7b43)</p>
-
+<div style="text-align: center;">
+    <img src="https://github.com/user-attachments/assets/a081f80c-e2d5-4c73-a22d-f6707ffd7b43" alt="food4">
+</div>
 
 :sunrise: User-friendly suggestion system.
 
